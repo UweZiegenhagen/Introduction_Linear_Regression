@@ -1,0 +1,260 @@
+\documentclass{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ nicefrac}
+\usepackage[left=1.5cm,right=1.5cm,top=2.8cm,bottom=2.8cm]{geometry}
+%\usepackage[]{mathpazo,palatino}
+%\usepackage[widespace]{fourier}
+
+% body:            Palatino 10pt
+% section titles:  Palatino Bold
+% formulas:        Euler-VM
+\usepackage{palatino}
+\usepackage{eulervm}
+\linespread{1.08}  % Palatino needs more leading
+
+% body:            CM Roman 11pt
+% section titles:  CM Sansserif Demibold Condensed
+% formulas:        CM Math
+%\usepackage{ccfonts}
+%\setkomafont{sectioning}{\fontfamily{cmss}\fontseries{sbc}\selectfont}
+
+
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\usepackage{cancel}
+
+
+% http://www.latex-community.org/forum/viewtopic.php?f=46&t=21038
+
+\usepackage[bookmarksopen=true,pdfsubject={Statistik},pdftitle={Statistik},pdfauthor={Uwe Ziegenhagen},linkcolor=blue,citecolor=blue,urlcolor=blue,colorlinks=true,pdfproducer={PDFLaTeX},pdfcreator={LaTeX 2e},pdftex,backref]{hyperref}
+
+\usepackage{amsmath,amstext}
+\usepackage[]{attachfile}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\def\qs{\text{QS}(a,b)}
+\def\sm{\sum\limits_{i=1}^{n}}
+\DeclareMathOperator{\cov}{Cov}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\E}{E}
+
+\makeatletter
+\@ifundefined{pdfoutput}{}{\DeclareGraphicsRule{*}{mps}{*}{}}
+\makeatother
+
+\title{Herleitung der Parameter-Gleichungen für die einfache lineare Regression}
+\author{Uwe Ziegenhagen}
+
+\begin{document}
+
+\maketitle
+
+\subsubsection*{Historie}
+
+\begin{description}
+\item[v1.0] 16.03.2009, erste Version hochgeladen
+\item[v2.0] 02.03.2013, einen Vorzeichenfehler beseitigt, diverse Gleichungen und Erläuterungen zum besseren Verständnis hinzugefügt.
+\end{description}
+
+\section{Einführung}
+
+Aus der Wikipedia: Die Regressionsanalyse ist ein statistisches Analyseverfahren mit dem Ziel, Beziehungen zwischen einer abhängigen und einer oder mehreren unabhängigen Variablen festzustellen. 
+
+Allgemein wird eine metrische Variable $Y$ betrachtet, die von einer zweiten Variablen $x$ abhängt. Üblicherweise ist $x=(x_1,...,x_n)^T$ ein $n$-dimensionaler Vektor, wobei die einzelnen $x$-Werte untereinander unabhängig sind. Im eindimensionalen Fall spricht man von einer einfachen linearen Regressionsanalyse, in Dimensionen größer gleich zwei von einer multiplen Regressionsanalyse.
+
+Bei der einfachen linearen Regression liegen Wertepaare der Form $(x_i, y_i)$ mit $ i=1,\ldots, n$ vor. Als Modell wählt man
+    
+\begin{equation}
+	 Y_i = b + a x_i + \epsilon_i
+\end{equation}
+   
+man nimmt somit einen linearen Zusammenhang zwischen $x_i$ und $Y_i$ an. Die Daten $y_i$ werden als Realisierungen der Zufallsvariablen $Y_i$ angesehen, die $x_i$ sind nicht stochastisch, sondern Messstellen. Ziel der Regressionsanalyse ist in diesem Fall die Bestimmung der unbekannten Parameter $a$ und $b$.
+
+Die Vorgehensweise bei der linearen Regression veranschaulicht folgende Grafik. Gegeben sind Wertepaare $x_i,y_i$, als schwarze Punkte eingezeichnet. Grün sind die Werte $(\hat{x},\hat{y})$ die durch die lineare Regressionsfunktion errechnet werden. Die roten Linien symbolisieren die Abweichungen\footnote{Es ist egal, ob man $y_i-\hat{y}_i$ oder $\hat{y}_i-y_i$ schreibt, durch die Quadrierung heben sich eventuelle negative Vorzeichen auf.}  $e_i=y_i-\hat{y}_i$ dieser durch die Gleichung bestimmten Punkte von den wahren Punkten. Aufgabe bei der Bestimmung der Parameter ist es nun, $a$ und $b$ so zu wählen, dass die Summe QS der quadrierten Abweichungen -- also $\sum_{i=1}^n (y_i-\hat{y}_i)^2$ -- minimal wird. 
+
+\begin{center}
+\includegraphics[width=0.75\textwidth]{lr.1}
+\end{center}
+
+\section{Herleitung der Gleichungen}
+
+
+\begin{align}\label{eq:1}
+\qs	&= \sum_{i=1}^{n} e_i^2 = \sm (y_i - \hat{y}_i)^2\\
+								&= \sm \Big(y_i - [ax_i+b]\Big)^2 \label{eq:2}
+\end{align}
+
+Da wir die optimalen Werte für die Minimierung dieser Quadratsumme erhalten wollen, bilden wir die partiellen Ableitungen nach $a$ und $b$. Vorher können wir jedoch Gleichung \ref{eq:1} vereinfachen. Mit Hilfe der 2. Binomischen Formel\footnote{\quad 2. Binomische Formel: \((s-t)^2 = s^2 -2st + t^2\)} lösen wir \ref{eq:2} auf:
+
+\begin{equation}
+	\qs = \sm \Big(y_i^2 - 2y_i (ax_i+b) + (ax_i +b)^2\Big)
+\end{equation}
+
+Da der Term \((ax_i +b)^2\) der 1. Binomischen Formel\footnote{\quad 1. Binomische Formel: \((s+t)^2 = s^2 +2st + t^2\)} entspricht, lösen wir auch diesen auf und vereinfachen:
+
+\begin{equation}
+	\qs = \sm \Big(y_i^2 - 2ax_iy_i - 2by_i + a^2x_i^2 + 2abx_i + b^2\Big)\label{eq:simp}
+\end{equation}
+
+Ausgehend von Gleichung \ref{eq:simp} bilden wir jetzt die partiellen Ableitungen nach $a$ und $b$:
+
+\begin{align}
+\frac{\partial \qs}{\partial a}	&= \sm (-2x_iy_i + 2ax_i^2 + 2bx_i) \label{eq:parta1}\\
+								&= 2 \sm x_i(-y_i + ax_i + b) \label{eq:parta2} 
+\end{align}
+
+\begin{align}
+\frac{\partial \qs}{\partial b}	&= \sm (-2y_i+2ax_i +2b) \label{eq:partb1}\\
+								&= 2 \sm (ax_i + b -y_i) \label{eq:partb2}
+\end{align}
+
+Wenn wir Gleichung \ref{eq:partb2} nullsetzen und auflösen, erhalten wir 
+
+\begin{alignat}{3}
+2\sm ax_i &+ 2\sm b &&- 2 \sm y_i \quad &&= 0 \\
+2\sm ax_i &+ \enskip 2nb &&- 2 \sm y_i \quad &&= 0 \\ 
+2nb &= 2 \sm y_i &&- 2\sm ax_i && 
+\end{alignat}
+%& 2 \sm y_i &&- 2\sm ax_i &&= 2nb
+
+Auflösen nach $b$ (durch $2n$ teilen) gibt (zusammen mit der Tatsache, dass das arithmetische Mittel allgemein als $\bar{x}= \frac{1}{n} \sm x_i$ definiert ist):
+
+\begin{align}
+b &= \frac{\sm y_i}{n} - \frac{\sm ax_i}{n} \\
+	&= \frac{1}{n} \sm y_i - a \frac{1}{n} \sm x_i \\
+	&= \bar{y} - a \bar{x}
+\end{align}
+
+Setzen wir nun $b=\bar{y} - a \bar{x}$ in Gleichung \ref{eq:parta2} ein, erhalten wir
+
+\begin{equation}
+	2\sm x_i \big(ax_i + (\bar{y} - a \bar{x}) - y_i\big)=0
+	\label{eq:einsetz}
+\end{equation}
+
+\clearpage Durch Ausmultiplizieren und Vereinfachen ergibt sich:
+
+\begin{align}
+0 &= 	\sm x_i \big(ax_i + (\bar{y} - a \bar{x}) - y_i\big) \\
+	&= \sm \big(ax_i^2+x_i(\bar{y}-a\bar{x})-x_iy_i \big) \\
+     &= \sm \big(ax_i^2 + x_i\bar{y} - a\bar{x}x_i- x_iy_i \big) \\
+     &= \sm \big(ax_i^2 - a\bar{x}x_i + x_i\bar{y} - x_iy_i \big) 
+\end{align}
+
+\begin{align}
+     &= \sm \big( (ax_i^2 - a\bar{x}x_i) + x_i\bar{y} - x_iy_i \big) \\
+     &= \sm \big( ax_i^2 - a\bar{x}x_i \big) + \sm x_i\bar{y} - \sm x_iy_i 
+\end{align}
+
+Jetzt subtrahiert man $\sm x_iy_i$ und addiert $\sm x_i\bar{y}$, um diese beiden Teile auf die andere Seite der Gleichung zu bekommen.
+
+\begin{equation}
+\sm (ax_i^2 -ax_i\bar{x}) = \sm x_iy_i - \sm x_i\bar{y} 
+\end{equation}
+
+Da $a$ konstant ist, können wir es vor die Klammer ziehen.
+
+\begin{equation}
+a \sm (x_i^2 -x_i\bar{x}) = \sm x_iy_i - \bar{y} \sm x_i 
+\end{equation}
+
+Jetzt teilen wir durch $\sm (x_i^2 -x_i\bar{x})$
+
+%\begin{equation}
+%a \dfrac{\cancel{\sm (x_i^2 -x_i\bar{x})}}{\cancel{\sm (x_i^2 -x_i\bar{x})}}=  \dfrac{\sm x_iy_i - \bar{y} \sm x_i}{\sm (x_i^2 -x_i\bar{x})}
+%\end{equation}
+
+
+\begin{equation}
+a =  \dfrac{\sm x_iy_i - \bar{y} \sm x_i}{\sm (x_i^2 -x_i\bar{x})} 
+\end{equation}
+
+Aus der Definition des arithmetischen Mittels $\bar{x} = \dfrac{1}{n}\sum x_i$ folgt $\sm x_i= n\bar{x}$. Einsetzen ergibt 
+
+\begin{equation}
+a =  \dfrac{\sm x_iy_i - \bar{y} n \bar{x}}{ \sm \big( x_i^2 -  \sm x_i \bar{x} \big)}
+\end{equation}
+
+
+Jetzt zerlegen wir die Summe unter dem Bruchstrich in Einzelsummen und ziehen $\bar{x}$ vor das zweite Summenzeichen (Zur Erinnerung: konstanter Term!)
+
+\begin{equation}
+a =  \dfrac{\sm x_iy_i - \bar{y} n\bar{x}}{\sm x_i^2 - \bar{x} \sm x_i}
+\end{equation}
+
+Über alternative Formeln zu Varianz und Kovarianz\footnote{Verschiebungssatz: \\ $\cov(X,Y) = \E \left((X - \E(X))(Y - \E(Y)\right)) =\E(X,Y)- \E(X)\E(Y)$ \\ $\var(X)=\E\left(\left(X-\E(X)\right)^2\right)=\E(X^2)-\left(\E(X)\right)^2$} erhalten wir
+
+\begin{equation}
+a =  \dfrac{\sm x_iy_i - n\bar{x}\bar{y}}{\sm x_i^2 -n\bar{x}^2} = \dfrac{n \left(\frac{1}{n}\sm x_iy_i - \bar{x}\bar{y}\right)}{ n\left( \frac{1}{n}\sm x_i^2 -\bar{x}^2\right)}  = \dfrac{n\cov(x,y)}{n\var(x)} = \dfrac{\cov(x,y)}{\var(x)}
+\end{equation}
+
+
+\section{Beispiel}
+
+Für unser Beispiel vom Anfang hier die numerische Bestimmung der Parameter. Für $\bar{x}$ erhalten wir $3$, für $\bar{y}=2.4$, die Summe der $(x-\bar{x})(y-\bar{y})$ ergibt $3$, die Summe der $(x-\bar{x})^2=10$. Durch Einsetzen dieser Werte erhalten wir dann als Parameterwert für $b$
+1.5, als Parameterwert für $a$ 0.3, sodass die Formel unseres linearen Modells $$y=0.3\cdot x + 1.5$$ lautet.
+
+\begin{center}
+\begin{tabular}{r|cccccc} \hline \hline
+& 1 & 2 & 3 & 4 & 5 & 6 \\
+& $x$	&	$y$	&	$x-\bar{x}$	&	$y-\bar{y}$	&	$(x-\bar{x})(y-\bar{y})$	&	$(x-\bar{x})^2$	\\ \hline
+1 & 1	&	1	&	-2	&	-1.4	&	\, 2.8	&	4	\\
+2 & 2	&	3	&	-1	&	\, 0.6	&	-0.6	&	1	\\
+3 & 3	&	2	&	0	&	-0.4	&	\, 0.0	&	0	\\
+4 & 4	&	4	&	1	&	\, 1.6	&	\, 1.6	&	1	\\
+5 & 5	&	2	&	2	&	-0.4	&	-0.8	&	4	\\  \hline
+$\sum$ & 15 & 12 
+\end{tabular}
+\end{center}
+
+\section{Quelldateien}
+
+Dieses Dokument wurde mit \LaTeX, dem freien Textsatzsystem, erstellt.
+
+\begin{tabular}{rl}
+ \LaTeX & \attachfile{LinearRegressionPrimer.tex} \\
+Metapost & \attachfile{linreg_metapost.mp} \\
+Metapost (kompiliert) & \attachfile{linreg_metapost.1}
+\end{tabular}
+
+\end{document}
+
+
+\begin{align}
+2\sm ax_i + 2\sm b - 2 \sm y_i &= 0 \\
+2\sm ax_i \enskip +\enskip  2nb - 2 \sm y_i &= 0 \\
+2nb &= 2\sm y_i - 2 \sm ax_i 
+\end{align}
+
+\partial
+
+\stackrel{!}{=}0 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{equation}
+	\qs = \sm \Big( \overbrace{y_i^2}^{s^2} - \overbrace{2y_i (ax_i+b)}^{2st} + \overbrace{(ax_i +b)^2}^{t^2}\Big)^2
+\end{equation}
+
+Da der Term \((ax_i +b)^2\) der 1. Binomischen Formel entspricht, l�sen wir auch diesen auf:
+
