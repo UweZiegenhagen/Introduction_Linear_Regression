@@ -1,18 +1,23 @@
-\documentclass{scrartcl}
+\documentclass[ngerman, 12pt]{scrartcl}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{ nicefrac}
-\usepackage[left=1.5cm,right=1.5cm,top=2.8cm,bottom=2.8cm]{geometry}
+\usepackage{nicefrac}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage[left=3cm,right=4cm,top=3cm,bottom=3cm]{geometry}
 %\usepackage[]{mathpazo,palatino}
-%\usepackage[widespace]{fourier}
+\usepackage[]{fourier}
+\usepackage{microtype}
+\usepackage{tikz}
+
 
 % body:            Palatino 10pt
 % section titles:  Palatino Bold
 % formulas:        Euler-VM
-\usepackage{palatino}
-\usepackage{eulervm}
-\linespread{1.08}  % Palatino needs more leading
+%\usepackage{palatino}
+%\usepackage{eulervm}
+%\linespread{1.08}  % Palatino needs more leading
 
 % body:            CM Roman 11pt
 % section titles:  CM Sansserif Demibold Condensed
@@ -33,9 +38,9 @@
 \usepackage[bookmarksopen=true,pdfsubject={Statistik},pdftitle={Statistik},pdfauthor={Uwe Ziegenhagen},linkcolor=blue,citecolor=blue,urlcolor=blue,colorlinks=true,pdfproducer={PDFLaTeX},pdfcreator={LaTeX 2e},pdftex,backref]{hyperref}
 
 \usepackage{amsmath,amstext}
-\usepackage[]{attachfile}
+\usepackage{attachfile}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0pt}
+\setlength{\parskip}{1em}
 
 \def\qs{\text{QS}(a,b)}
 \def\sm{\sum\limits_{i=1}^{n}}
@@ -43,11 +48,8 @@
 \DeclareMathOperator{\var}{Var}
 \DeclareMathOperator{\E}{E}
 
-\makeatletter
-\@ifundefined{pdfoutput}{}{\DeclareGraphicsRule{*}{mps}{*}{}}
-\makeatother
-
 \title{Herleitung der Parameter-Gleichungen für die einfache lineare Regression}
+\subtitle{-- DRAFT --}
 \author{Uwe Ziegenhagen}
 
 \begin{document}
@@ -59,27 +61,199 @@
 \begin{description}
 \item[v1.0] 16.03.2009, erste Version hochgeladen
 \item[v2.0] 02.03.2013, einen Vorzeichenfehler beseitigt, diverse Gleichungen und Erläuterungen zum besseren Verständnis hinzugefügt.
+\item [v3.0a] auf Github gewechselt, Metapost gegen TikZ getauscht, einige Erläuterungen verbessert, \LaTeX\ Code aufgeräumt
 \end{description}
 
 \section{Einführung}
 
-Aus der Wikipedia: Die Regressionsanalyse ist ein statistisches Analyseverfahren mit dem Ziel, Beziehungen zwischen einer abhängigen und einer oder mehreren unabhängigen Variablen festzustellen. 
+Aus der Wikipedia\footnote{\url{https://de.wikipedia.org/wiki/Lineare_Regression}, Abruf: 24.06.2018}: 
 
-Allgemein wird eine metrische Variable $Y$ betrachtet, die von einer zweiten Variablen $x$ abhängt. Üblicherweise ist $x=(x_1,...,x_n)^T$ ein $n$-dimensionaler Vektor, wobei die einzelnen $x$-Werte untereinander unabhängig sind. Im eindimensionalen Fall spricht man von einer einfachen linearen Regressionsanalyse, in Dimensionen größer gleich zwei von einer multiplen Regressionsanalyse.
+\begin{quote}
+\enquote{Die lineare Regression, die einen Spezialfall des allgemeinen Konzepts der Regressionsanalyse darstellt, ist ein statistisches Verfahren, mit dem versucht wird, eine beobachtete abhängige Variable durch eine oder mehrere unabhängige Variablen zu erklären. Das Beiwort \enquote{linear} ergibt sich dadurch, dass die abhängige Variable eine Linearkombination der Regressionskoeffizienten darstellt (aber nicht notwendigerweise der unabhängigen Variablen). Der Begriff Regression bzw. Regression zur Mitte wurde vor allem durch den Statistiker Francis Galton geprägt. 
+}\end{quote}
 
-Bei der einfachen linearen Regression liegen Wertepaare der Form $(x_i, y_i)$ mit $ i=1,\ldots, n$ vor. Als Modell wählt man
-    
+Allgemein wird eine metrische Variable $Y$ betrachtet, die von ein oder mehreren Variablen $X_i$ abhängt. $Y$ nennt man die \enquote{abhängige Variable}, die $X_i$ sind die \enquote{unabhängigen Variablen}.  Im eindimensionalen Fall -- wenn es nur eine $X$-Variable gibt -- spricht man von einer einfachen linearen Regressionsanalyse, in höheren Dimensionen von der multiplen Regressionsanalyse.
+
+
+\section{Einfache linerare Regression}
+
+Im folgenden nutzen wir die Werte aus Tabelle \ref{tab:werte}, um die einfache lineare Regression zu erklären.
+
+\begin{center}
+\begin{tabular}{cc} \toprule[2pt]
+$X$-Wert & $Y$-Wert \\ \midrule
+        1 &1\\
+        2 &3\\
+        3 &2\\
+        4 &5\\
+        5 &4\\ \bottomrule[2pt]
+\end{tabular}
+\end{center}
+\captionof{table}{Tabelle mit Wertepaaren}\label{tab:werte}\vspace*{1em}
+
+Stellt man die Punkte in einem Streu-Diagramm wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ ebenfalls steigen.
+
+\begin{center}
+\vspace*{1em}\begin{tikzpicture}[scale=1.5,
+    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+]
+
+\draw[help lines,yellow,thin] (0,0) grid (7,6);
+
+\draw [->,thick] (0,0) -- (7,0);
+\draw [->,thick] (0,0) -- (0,6);
+
+\node  [punkt] (A) at (1,1){};
+\node  [punkt] (B) at (2,3){};
+\node  [punkt] (C) at (3,2){};
+\node  [punkt] (D) at (4,5){};
+\node  [punkt] (E) at (5,4){};
+
+\node  [below] (X) at (7,0){X};
+\node  [left] (Y) at (0,6){Y};
+
+%\draw[blue, very thick](0,1.5)--(6,3.3);
+%\node[punkt] (A) at (9,1){};
+%\node[draw] (B) at (8,4){B};
+%\draw (A) -- (B);
+\end{tikzpicture}
+\captionof{figure}{Scatterplot zur Darstellung der X-Y Wertepaare}\label{fig:scatter}\vspace*{1em}
+\end{center}
+
+Wenn wir jetzt den Zusammenhang zwischen $X$ und $Y$ mittels einfacher linearer Regression modellieren möchten, unterstellen wir ein Modell der Form: 
+   
 \begin{equation}
 	 Y_i = b + a x_i + \epsilon_i
 \end{equation}
    
-man nimmt somit einen linearen Zusammenhang zwischen $x_i$ und $Y_i$ an. Die Daten $y_i$ werden als Realisierungen der Zufallsvariablen $Y_i$ angesehen, die $x_i$ sind nicht stochastisch, sondern Messstellen. Ziel der Regressionsanalyse ist in diesem Fall die Bestimmung der unbekannten Parameter $a$ und $b$.
+$b$ ist dabei der Achsenabschnitt, also der Punkt $(0,b)$, an dem die X-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. (Die $\epsilon_i$ stehen für die Schätzfehler, darauf kommen wir gleich noch zu sprechen). 
+
+Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für eher zufällige Regressionsgeraden. Im linken Plot erkennt man sehr deutlich, dass die Gerade nicht zu unseren Punkten passen kann, sie zeigt in die falsche Richtung und unterstellt damit, dass mit steigendem $X$ die Werte für $Y$ sinken. Im rechten Plot stimmt dagegen die Richtung, die Gerade sieht schon recht gut aus. 
+
+
+
+\begin{tikzpicture}[scale=1,
+    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+]
+
+\draw[help lines,yellow,thin] (0,0) grid (7,6);
+
+\draw [->,thick] (0,0) -- (7,0);
+\draw [->,thick] (0,0) -- (0,6);
+
+\node  [punkt] (A) at (1,1){};
+\node  [punkt] (B) at (2,3){};
+\node  [punkt] (C) at (3,2){};
+\node  [punkt] (D) at (4,5){};
+\node  [punkt] (E) at (5,4){};
+
+\node  [below] (X) at (7,0){X};
+\node  [left] (Y) at (0,6){Y};
+\node  [below] (suba) at (3.5,0){(a)};
+
+\draw[blue, very thick](0,6)--(6,2);
+%\node[punkt] (A) at (9,1){};
+%\node[draw] (B) at (8,4){B};
+%\draw (A) -- (B);
+\end{tikzpicture}\begin{tikzpicture}[scale=1,
+    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+]
+
+\draw[help lines,yellow,thin] (0,0) grid (7,6);
+
+\draw [->,thick] (0,0) -- (7,0);
+\draw [->,thick] (0,0) -- (0,6);
+
+\node  [punkt] (A) at (1,1){};
+\node  [punkt] (B) at (2,3){};
+\node  [punkt] (C) at (3,2){};
+\node  [punkt] (D) at (4,5){};
+\node  [punkt] (E) at (5,4){};
+
+\node  [below] (X) at (7,0){X};
+\node  [left] (Y) at (0,6){Y};
+
+\node  [below] (subb) at (3.5,0){(b)};
+
+\draw[blue, very thick](0,1)--(6,5);
+%\node[punkt] (A) at (9,1){};
+%\node[draw] (B) at (8,4){B};
+%\draw (A) -- (B);
+\end{tikzpicture}
+\captionof{figure}{Zwei Regressionsgeraden}\label{fig:geraden}
+
+Da aber eine Einschätzung wie \enquote{recht gut} nicht wirklich mathematisch exakt ist, müssen wir hier ein wenig tiefer einsteigen.
+
+Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Geraden die Punkte in grün markiert, die die jeweilige Regressionsgleichung für den jeweiligen Wert von $X$ vorhersagt, außerdem wurden die jeweiligen Abstände zwischen dem wahren $Y$-Wert und dem geschätzten $Y$-Wert markiert.
+
+
+
+\begin{tikzpicture}[scale=1,
+    pred/.style={circle, minimum size = 0.05cm,blue,fill=green},
+    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+]
+
+\draw[help lines,yellow,thin] (0,0) grid (7,6);
+
+\draw [->,thick] (0,0) -- (7,0);
+\draw [->,thick] (0,0) -- (0,6);
+
+\node  [punkt] (A) at (1,1){};
+\node  [punkt] (B) at (2,3){};
+\node  [punkt] (C) at (3,2){};
+\node  [punkt] (D) at (4,5){};
+\node  [punkt] (E) at (5,4){};
+
+\node  [pred] (A) at (1,1){};
+\node  [pred] (B) at (2,3){};
+\node  [pred] (C) at (3,2){};
+\node  [pred] (D) at (4,5){};
+\node  [pred] (E) at (5,4){};
+
+\node  [below] (X) at (7,0){X};
+\node  [left] (Y) at (0,6){Y};
+\node  [below] (suba) at (3.5,0){(a)};
+
+\draw[blue, very thick](0,6)--(6,2);
+%\node[punkt] (A) at (9,1){};
+%\node[draw] (B) at (8,4){B};
+%\draw (A) -- (B);
+\end{tikzpicture}\begin{tikzpicture}[scale=1,
+    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+]
+
+\draw[help lines,yellow,thin] (0,0) grid (7,6);
+
+\draw [->,thick] (0,0) -- (7,0);
+\draw [->,thick] (0,0) -- (0,6);
+
+\node  [punkt] (A) at (1,1){};
+\node  [punkt] (B) at (2,3){};
+\node  [punkt] (C) at (3,2){};
+\node  [punkt] (D) at (4,5){};
+\node  [punkt] (E) at (5,4){};
+
+\node  [below] (X) at (7,0){X};
+\node  [left] (Y) at (0,6){Y};
+
+\node  [below] (subb) at (3.5,0){(b)};
+
+\draw[blue, very thick](0,1)--(6,5);
+%\node[punkt] (A) at (9,1){};
+%\node[draw] (B) at (8,4){B};
+%\draw (A) -- (B);
+\end{tikzpicture}
+\captionof{figure}{Zwei Regressionsgeraden}\label{fig:geraden2}
+
+
 
 Die Vorgehensweise bei der linearen Regression veranschaulicht folgende Grafik. Gegeben sind Wertepaare $x_i,y_i$, als schwarze Punkte eingezeichnet. Grün sind die Werte $(\hat{x},\hat{y})$ die durch die lineare Regressionsfunktion errechnet werden. Die roten Linien symbolisieren die Abweichungen\footnote{Es ist egal, ob man $y_i-\hat{y}_i$ oder $\hat{y}_i-y_i$ schreibt, durch die Quadrierung heben sich eventuelle negative Vorzeichen auf.}  $e_i=y_i-\hat{y}_i$ dieser durch die Gleichung bestimmten Punkte von den wahren Punkten. Aufgabe bei der Bestimmung der Parameter ist es nun, $a$ und $b$ so zu wählen, dass die Summe QS der quadrierten Abweichungen -- also $\sum_{i=1}^n (y_i-\hat{y}_i)^2$ -- minimal wird. 
 
-\begin{center}
-\includegraphics[width=0.75\textwidth]{lr.1}
-\end{center}
+%\begin{center}
+%\includegraphics[width=0.75\textwidth]{linreg_metapost.1}
+%\end{center}
+
+
 
 \section{Herleitung der Gleichungen}
 
@@ -239,7 +413,7 @@ Metapost (kompiliert) & \attachfile{linreg_metapost.1}
 
 
 
-
+    };
 
 
 
