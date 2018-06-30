@@ -120,17 +120,15 @@ Stellt man die Punkte in einem Streu-Diagramm wie in Abbildung \ref{fig:scatter}
 \captionof{figure}{Scatterplot zur Darstellung der X-Y Wertepaare}\label{fig:scatter}\vspace*{1em}
 \end{center}
 
-Wenn wir jetzt den Zusammenhang zwischen $X$ und $Y$ mittels einfacher linearer Regression modellieren möchten, unterstellen wir ein Modell der Form: 
+Wenn wir den Zusammenhang dieser Punkte mittels Gerade modellieren wollen, unterstellen wir ein Modell der Form: 
    
 \begin{equation}
-	 Y_i = b + a x_i + \epsilon_i
+	 Y_i = b + a \cdot x_i + \epsilon_i
 \end{equation}
    
-$b$ ist dabei der Achsenabschnitt, also der Punkt $(0,b)$, an dem die X-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. (Die $\epsilon_i$ stehen für die Schätzfehler, darauf kommen wir gleich noch zu sprechen). 
+$b$ ist dabei der Achsenabschnitt, also der Punkt $(0,b)$, an dem die X-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. ($\epsilon_i$ steht für die Fehler, den wir bei der Modellierung machen, darauf kommen wir gleich noch zu sprechen). 
 
-Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für eher zufällige Regressionsgeraden. Im linken Plot erkennt man sehr deutlich, dass die Gerade nicht zu unseren Punkten passen kann, sie zeigt in die falsche Richtung und unterstellt damit, dass mit steigendem $X$ die Werte für $Y$ sinken. Im rechten Plot stimmt dagegen die Richtung, die Gerade sieht schon recht gut aus. 
-
-
+Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für eher zufällige Regressionsgeraden. Im linken Plot erkennt man sehr deutlich, dass die Gerade nicht zu unseren Punkten passen kann, sie zeigt in die falsche Richtung und unterstellt damit, dass mit steigendem $X$ die Werte für $Y$ sinken. Im rechten Plot stimmt die Richtung, die Gerade sieht schon \enquote{recht gut} aus. 
 
 \begin{tikzpicture}[scale=1,
     punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
@@ -182,11 +180,9 @@ Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\
 \end{tikzpicture}
 \captionof{figure}{Zwei Regressionsgeraden}\label{fig:geraden}
 
-Da aber eine Einschätzung wie \enquote{recht gut} nicht wirklich mathematisch exakt ist, müssen wir hier ein wenig tiefer einsteigen.
+Da aber eine Einschätzung wie \enquote{recht gut} nicht wirklich mathematisch exakt ist, müssen wir diesen Punkt ein wenig genauer betrachten.
 
-Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Geraden die Punkte in grün markiert, die die jeweilige Regressionsgleichung für den jeweiligen Wert von $X$ vorhersagt, außerdem wurden die jeweiligen Abstände zwischen dem wahren $Y$-Wert und dem geschätzten $Y$-Wert markiert.
-
-
+Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Geraden die Punkte in grün markiert, die die Regressionsgleichung für den jeweiligen Wert von $X$ vorhersagt, außerdem wurden die jeweiligen Abstände zwischen dem wahren $Y$-Wert und dem geschätzten $Y$-Wert (den wir ab jetzt $\hat Y$ nennen) markiert. 
 
 \begin{tikzpicture}[scale=1,
     pred/.style={circle, minimum size = 0.05cm,blue,fill=green},
@@ -195,8 +191,12 @@ Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Ger
 
 \draw[help lines,yellow,thin] (0,0) grid (7,6);
 
+
 \draw [->,thick] (0,0) -- (7,0);
 \draw [->,thick] (0,0) -- (0,6);
+
+\draw[blue, very thick](0,6)--(6,2);
+
 
 \node  [punkt] (A) at (1,1){};
 \node  [punkt] (B) at (2,3){};
@@ -204,22 +204,26 @@ Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Ger
 \node  [punkt] (D) at (4,5){};
 \node  [punkt] (E) at (5,4){};
 
-\node  [pred] (A) at (1,1){};
-\node  [pred] (B) at (2,3){};
-\node  [pred] (C) at (3,2){};
-\node  [pred] (D) at (4,5){};
-\node  [pred] (E) at (5,4){};
+\node  [pred] (Ap) at (1,5.3333){};
+\node  [pred] (Bp) at (2,4.6666){};
+\node  [pred] (Cp) at (3,4){};
+\node  [pred] (Dp) at (4,3.3333){};
+\node  [pred] (Ep) at (5,2.6666){};
 
 \node  [below] (X) at (7,0){X};
 \node  [left] (Y) at (0,6){Y};
 \node  [below] (suba) at (3.5,0){(a)};
 
-\draw[blue, very thick](0,6)--(6,2);
 %\node[punkt] (A) at (9,1){};
 %\node[draw] (B) at (8,4){B};
-%\draw (A) -- (B);
+\draw[magenta] (A) -- (Ap);
+\draw[magenta] (B) -- (Bp);
+\draw[magenta] (C) -- (Cp);
+\draw[magenta] (D) -- (Dp);
+\draw[magenta] (E) -- (Ep);
 \end{tikzpicture}\begin{tikzpicture}[scale=1,
     punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+    pred/.style={circle, minimum size = 0.05cm,blue,fill=green},
 ]
 
 \draw[help lines,yellow,thin] (0,0) grid (7,6);
@@ -227,43 +231,81 @@ Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Ger
 \draw [->,thick] (0,0) -- (7,0);
 \draw [->,thick] (0,0) -- (0,6);
 
+\draw[blue, very thick](0,1)--(6,5);
+
 \node  [punkt] (A) at (1,1){};
 \node  [punkt] (B) at (2,3){};
 \node  [punkt] (C) at (3,2){};
 \node  [punkt] (D) at (4,5){};
 \node  [punkt] (E) at (5,4){};
 
+\node  [pred] (Ap) at (1,1.6666){};
+\node  [pred] (Bp) at (2,2.3333){};
+\node  [pred] (Cp) at (3,3){};
+\node  [pred] (Dp) at (4,3.6666){};
+\node  [pred] (Ep) at (5,4.3333){};
+
+\draw[magenta] (A) -- (Ap);
+\draw[magenta] (B) -- (Bp);
+\draw[magenta] (C) -- (Cp);
+\draw[magenta] (D) -- (Dp);
+\draw[magenta] (E) -- (Ep);
+
+
 \node  [below] (X) at (7,0){X};
 \node  [left] (Y) at (0,6){Y};
 
 \node  [below] (subb) at (3.5,0){(b)};
 
-\draw[blue, very thick](0,1)--(6,5);
 %\node[punkt] (A) at (9,1){};
 %\node[draw] (B) at (8,4){B};
 %\draw (A) -- (B);
 \end{tikzpicture}
 \captionof{figure}{Zwei Regressionsgeraden}\label{fig:geraden2}
 
+Wenn wir beide Grafiken betrachten, so ist schnell sichtbar, dass die Regressionsgerade im linken Bild deutlich schlechter ist als die Regressionsgerade im rechten Bild: die Summe der Abstände zwischen den wahren, roten, Punkten und den durch die Gerade geschätzten Punkten ist viel größer.
 
 
-Die Vorgehensweise bei der linearen Regression veranschaulicht folgende Grafik. Gegeben sind Wertepaare $x_i,y_i$, als schwarze Punkte eingezeichnet. Grün sind die Werte $(\hat{x},\hat{y})$ die durch die lineare Regressionsfunktion errechnet werden. Die roten Linien symbolisieren die Abweichungen\footnote{Es ist egal, ob man $y_i-\hat{y}_i$ oder $\hat{y}_i-y_i$ schreibt, durch die Quadrierung heben sich eventuelle negative Vorzeichen auf.}  $e_i=y_i-\hat{y}_i$ dieser durch die Gleichung bestimmten Punkte von den wahren Punkten. Aufgabe bei der Bestimmung der Parameter ist es nun, $a$ und $b$ so zu wählen, dass die Summe QS der quadrierten Abweichungen -- also $\sum_{i=1}^n (y_i-\hat{y}_i)^2$ -- minimal wird. 
+Aus dieser Tatsache lässt sich ein sehr wichtiger Schluss ziehen: wenn wir diese Summe der Abstände minimieren könnten, würden wir die optimale Gerade erhalten. Als Gleichung:
+
+\begin{equation}
+S = \sm y_i - \hat{y}_i
+\end{equation}\label{eq:abstaende}
+
+In Worten: S ist die Summe der Differenzen von wahrem und geschätzten $y$-Wert.
+
+Es hat sich jedoch herausgestellt, dass es sinnvoll ist, nicht die einfache Summe der Abstände zu minimieren, sondern die Summe der quadrierten Abstände. 
+
+Daher wird aus Gleichung \ref{eq:abstaende} die folgende Gleichung:
+
+\begin{equation}
+QS = \left(\sm y_i - \hat{y}_i\right)^2
+\end{equation}\label{eq:qabstaende}
+
+Diese Quadratsumme der Abweichungen ist nur abhängig von den Parametern $a$ und $b$ der Regressionsgleichung, daher können wir schreiben:
+
+\begin{equation}
+QS(a,b) = \left(\sm y_i - \hat{y}_i\right)^2
+\end{equation}\label{eq:qabstaende}
+
+
+%Die Vorgehensweise bei der linearen Regression veranschaulicht folgende Grafik. Gegeben sind Wertepaare $x_i,y_i$, als schwarze Punkte eingezeichnet. Grün sind die Werte $(\hat{x},\hat{y})$ die durch die lineare Regressionsfunktion errechnet werden. Die roten Linien symbolisieren die Abweichungen\footnote{Es ist egal, ob man $y_i-\hat{y}_i$ oder $\hat{y}_i-y_i$ schreibt, durch die Quadrierung heben sich eventuelle negative Vorzeichen auf.}  $e_i=y_i-\hat{y}_i$ dieser durch die Gleichung bestimmten Punkte von den wahren Punkten. Aufgabe bei der Bestimmung der Parameter ist es nun, $a$ und $b$ so zu wählen, dass die Summe QS der quadrierten Abweichungen -- also $\sum_{i=1}^n (y_i-\hat{y}_i)^2$ -- minimal wird. 
 
 %\begin{center}
 %\includegraphics[width=0.75\textwidth]{linreg_metapost.1}
 %\end{center}
 
+Im Folgenden werden wir diese Funktion differenzieren, um die Gleichungen für die optimalen $a$ und $b$ zu ermitteln. 
 
-
-\section{Herleitung der Gleichungen}
+\section{Herleitung der Parameter-Gleichungen}
 
 
 \begin{align}\label{eq:1}
-\qs	&= \sum_{i=1}^{n} e_i^2 = \sm (y_i - \hat{y}_i)^2\\
+\qs	&= \sum_{i=1}^{n} e_i^2 = \sm \left(y_i - \hat{y}_i\right)^2\\
 								&= \sm \Big(y_i - [ax_i+b]\Big)^2 \label{eq:2}
 \end{align}
 
-Da wir die optimalen Werte für die Minimierung dieser Quadratsumme erhalten wollen, bilden wir die partiellen Ableitungen nach $a$ und $b$. Vorher können wir jedoch Gleichung \ref{eq:1} vereinfachen. Mit Hilfe der 2. Binomischen Formel\footnote{\quad 2. Binomische Formel: \((s-t)^2 = s^2 -2st + t^2\)} lösen wir \ref{eq:2} auf:
+Da wir die optimalen Werte für die Minimierung dieser Quadratsumme erhalten wollen, bilden wir die partiellen Ableitungen nach $a$ und $b$. Vorher können wir jedoch Gleichung \ref{eq:1} vereinfachen. Mit Hilfe der 2. Binomischen Formel\footnote{\quad 2. Binomische Formel: \((s-t)^2 = s^2 -2st + t^2\)} lösen wir Gleichung \ref{eq:2} auf:
 
 \begin{equation}
 	\qs = \sm \Big(y_i^2 - 2y_i (ax_i+b) + (ax_i +b)^2\Big)
