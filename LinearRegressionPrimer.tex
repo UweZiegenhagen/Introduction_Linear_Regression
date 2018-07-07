@@ -124,7 +124,7 @@ Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot
 \node  [left] (y4) at (0,4){4};
 \node  [left] (y5) at (0,5){5};
 
-\draw[blue, very thick](0,0.8)--(5,4.6);
+%\draw[blue, very thick](0,0.8)--(5,4.6);
 %\node[punkt] (A) at (9,1){};
 %\node[draw] (B) at (8,4){B};
 %\draw (A) -- (B);
@@ -434,10 +434,10 @@ b=\bar{y} - a \bar{x}
 a =  \dfrac{\cov(x,y)}{\var(x)}
 \end{equation}
 
-\section{Beispiel}
-
 \clearpage
 
+
+\section{Beispiel}
 
 \begin{center}
 \captionof{table}{Hilfstabelle}
@@ -465,6 +465,49 @@ Mit Hilfe der Werte aus der Tabelle lassen sich \(a\) und \(b\) einfach bestimme
 Hinweis zu dieser Rechnung: Brüche werden dividiert, indem man mit dem Kehrwert multipliziert: \( \frac{\nicefrac{1}{5}}{\nicefrac{1}{5}}   = \nicefrac{1}{5} \cdot \nicefrac{5}{1}  = 1 \). Für die Berechnung von \(a\) braucht man die Anzahl der Beobachtungen also nicht mehr.
 
 \[ b = \bar y - a\cdot \bar x = 3 - 0.8 \cdot 3 = 3 - 2.4 = 0.6 \]
+
+Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Regressionsgerade zeichnen:\vspace*{-11mm}
+
+\begin{center}
+\vspace*{1em}\begin{tikzpicture}[scale=0.95,
+    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+]
+
+\draw[help lines,yellow,thin] (0,0) grid (7,6);
+
+\draw [->,thick] (0,0) -- (7,0);
+\draw [->,thick] (0,0) -- (0,6);
+
+\node  [punkt] (A) at (1,1){};
+\node  [punkt] (B) at (2,3){};
+\node  [punkt] (C) at (3,2){};
+\node  [punkt] (D) at (4,5){};
+\node  [punkt] (E) at (5,4){};
+
+\node  [below] (X) at (7,0){X};
+\node  [left] (Y) at (0,6){Y};
+
+\node  [below] (x1) at (1,0){1};
+\node  [below] (x2) at (2,0){2};
+\node  [below] (x3) at (3,0){3};
+\node  [below] (x4) at (4,0){4};
+\node  [below] (x5) at (5,0){5};
+\node  [below] (x6) at (6,0){6};
+
+\node  [left] (y1) at (0,1){1};
+\node  [left] (y2) at (0,2){2};
+\node  [left] (y3) at (0,3){3};
+\node  [left] (y4) at (0,4){4};
+\node  [left] (y5) at (0,5){5};
+
+\draw[blue, very thick](0,0.8)--(6,5.4);
+%\node[punkt] (A) at (9,1){};
+%\node[draw] (B) at (8,4){B};
+%\draw (A) -- (B);
+\end{tikzpicture}
+\captionof{figure}{Scatterplot mit Regressionsgerade}\label{fig:final}\vspace*{1em}
+\end{center}
+
 
 \section{Berechnung mit dem Taschenrechner}
 
