@@ -48,7 +48,7 @@
 \DeclareMathOperator{\var}{Var}
 \DeclareMathOperator{\E}{E}
 
-\title{Herleitung der Parameter-Gleichungen für die einfache lineare Regression}
+\title{Einführung in die lineare Regression}
 \subtitle{-- DRAFT --}
 \author{Uwe Ziegenhagen}
 
@@ -72,12 +72,11 @@ Aus der Wikipedia\footnote{\url{https://de.wikipedia.org/wiki/Lineare_Regression
 \enquote{Die lineare Regression, die einen Spezialfall des allgemeinen Konzepts der Regressionsanalyse darstellt, ist ein statistisches Verfahren, mit dem versucht wird, eine beobachtete abhängige Variable durch eine oder mehrere unabhängige Variablen zu erklären. Das Beiwort \enquote{linear} ergibt sich dadurch, dass die abhängige Variable eine Linearkombination der Regressionskoeffizienten darstellt (aber nicht notwendigerweise der unabhängigen Variablen). Der Begriff Regression bzw. Regression zur Mitte wurde vor allem durch den Statistiker Francis Galton geprägt. 
 }\end{quote}
 
-Allgemein wird eine metrische Variable $Y$ betrachtet, die von ein oder mehreren Variablen $X_i$ abhängt. $Y$ nennt man die \enquote{abhängige Variable}, die $X_i$ sind die \enquote{unabhängigen Variablen}.  Im eindimensionalen Fall -- wenn es nur eine $X$-Variable gibt -- spricht man von einer einfachen linearen Regressionsanalyse, in höheren Dimensionen von der multiplen Regressionsanalyse.
+Allgemein wird eine metrische Variable $Y$ betrachtet, die von ein oder mehreren Variablen $X_i$ abhängt. $Y$ nennt man daher auch die \enquote{abhängige Variable} und die $X_i$ die \enquote{unabhängigen Variablen}.  Im eindimensionalen Fall -- wenn es nur eine $X$-Variable gibt -- spricht man von einer einfachen linearen Regression, in höheren Dimensionen von der multiplen Regression.
 
+\section{Einfache lineare Regression}
 
-\section{Einfache linerare Regression}
-
-Im folgenden nutzen wir die Werte aus Tabelle \ref{tab:werte}, um die einfache lineare Regression zu erklären.
+Im folgenden nutzen wir die Werte aus Tabelle \ref{tab:werte}, um an ihnen die einfache lineare Regression zu erklären.
 
 \begin{center}
 \begin{tabular}{cc} \toprule[2pt]
@@ -91,7 +90,7 @@ $X$-Wert & $Y$-Wert \\ \midrule
 \end{center}
 \captionof{table}{Tabelle mit Wertepaaren}\label{tab:werte}\vspace*{1em}
 
-Stellt man die Punkte in einem Streu-Diagramm wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ ebenfalls steigen.
+Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot}) wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ ebenfalls steigen.
 
 \begin{center}
 \vspace*{1em}\begin{tikzpicture}[scale=1.5,
@@ -120,15 +119,15 @@ Stellt man die Punkte in einem Streu-Diagramm wie in Abbildung \ref{fig:scatter}
 \captionof{figure}{Scatterplot zur Darstellung der X-Y Wertepaare}\label{fig:scatter}\vspace*{1em}
 \end{center}
 
-Wenn wir den Zusammenhang dieser Punkte mittels Gerade modellieren wollen, unterstellen wir ein Modell der Form: 
+Wenn wir den Zusammenhang dieser Punkte mittels Gerade (also \enquote{linear}) modellieren wollen, unterstellen wir ein Modell der Form: 
    
 \begin{equation}
 	 Y_i = b + a \cdot x_i + \epsilon_i
 \end{equation}
    
-$b$ ist dabei der Achsenabschnitt, also der Punkt $(0,b)$, an dem die X-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. ($\epsilon_i$ steht für die Fehler, den wir bei der Modellierung machen, darauf kommen wir gleich noch zu sprechen). 
+$b$ ist dabei der Achsenabschnitt, also der Punkt $(0,b)$, an dem die X-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. ($\epsilon_i$ steht für die Fehler, den wir bei der Modellierung machen, darauf kommen wir später noch zu sprechen). 
 
-Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für eher zufällige Regressionsgeraden. Im linken Plot erkennt man sehr deutlich, dass die Gerade nicht zu unseren Punkten passen kann, sie zeigt in die falsche Richtung und unterstellt damit, dass mit steigendem $X$ die Werte für $Y$ sinken. Im rechten Plot stimmt die Richtung, die Gerade sieht schon \enquote{recht gut} aus. 
+Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für beliebig gewählte Regressionsgeraden. Im linken Plot erkennt man sehr deutlich, dass die Gerade nicht zu unseren Punkten passt, sie zeigt in die falsche Richtung und unterstellt damit, dass mit steigendem $X$ die Werte für $Y$ sinken. Im rechten Plot stimmt die Richtung, die Gerade sieht schon \enquote{recht gut} aus. 
 
 \begin{tikzpicture}[scale=1,
     punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
@@ -189,7 +188,7 @@ Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Ger
     punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
 ]
 
-\draw[help lines,yellow,thin] (0,0) grid (7,6);
+%\draw[help lines,yellow,thin] (0,0) grid (7,6);
 
 
 \draw [->,thick] (0,0) -- (7,0);
@@ -226,7 +225,7 @@ Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Ger
     pred/.style={circle, minimum size = 0.05cm,blue,fill=green},
 ]
 
-\draw[help lines,yellow,thin] (0,0) grid (7,6);
+%\draw[help lines,yellow,thin] (0,0) grid (7,6);
 
 \draw [->,thick] (0,0) -- (7,0);
 \draw [->,thick] (0,0) -- (0,6);
@@ -272,11 +271,10 @@ Aus dieser Tatsache lässt sich ein sehr wichtiger Schluss ziehen: wenn wir dies
 S = \sm y_i - \hat{y}_i
 \end{equation}\label{eq:abstaende}
 
-In Worten: S ist die Summe der Differenzen von wahrem und geschätzten $y$-Wert.
+In Worten: S ist die Summe aller Differenzen von wahrem und geschätzten $y$-Wert.
+Es hat sich jedoch herausgestellt, dass es sinnvoll ist, nicht einfach die Summe der Abstände zu minimieren, sondern die Summe der quadrierten Abstände.  Es lässt sich dann recht leicht damit rechnen, zur Not auch ohne Taschenrechner. Es gibt aber -- das sollte man vielleicht im Kopf behalten -- noch andere Arten, diese Fehlerfunktion zu bestimmen.
 
-Es hat sich jedoch herausgestellt, dass es sinnvoll ist, nicht die einfache Summe der Abstände zu minimieren, sondern die Summe der quadrierten Abstände. 
-
-Daher wird aus Gleichung \ref{eq:abstaende} die folgende Gleichung:
+Aus Gleichung \ref{eq:abstaende} wird jetzt -- da wir die Quadratsumme minimieren wollen -- die folgende Gleichung:
 
 \begin{equation}
 QS = \left(\sm y_i - \hat{y}_i\right)^2
@@ -295,33 +293,35 @@ QS(a,b) = \left(\sm y_i - \hat{y}_i\right)^2
 %\includegraphics[width=0.75\textwidth]{linreg_metapost.1}
 %\end{center}
 
-Im Folgenden werden wir diese Funktion differenzieren, um die Gleichungen für die optimalen $a$ und $b$ zu ermitteln. 
+Im Folgenden werden wir diese Funktion partiell ableiten, um die Gleichungen für die optimalen $a$ und $b$ zu ermitteln. 
 
 \section{Herleitung der Parameter-Gleichungen}
 
+Wir schreiben Gleichung \ref{eq:qabstaende} nochmals auf und ersetzen $\hat y$ durch die Modellgleichung:
 
 \begin{align}\label{eq:1}
-\qs	&= \sum_{i=1}^{n} e_i^2 = \sm \left(y_i - \hat{y}_i\right)^2\\
+\qs	&  = \sm \left(y_i - \hat{y}_i\right)^2\\
 								&= \sm \Big(y_i - [ax_i+b]\Big)^2 \label{eq:2}
 \end{align}
 
 Da wir die optimalen Werte für die Minimierung dieser Quadratsumme erhalten wollen, bilden wir die partiellen Ableitungen nach $a$ und $b$. Vorher können wir jedoch Gleichung \ref{eq:1} vereinfachen. Mit Hilfe der 2. Binomischen Formel\footnote{\quad 2. Binomische Formel: \((s-t)^2 = s^2 -2st + t^2\)} lösen wir Gleichung \ref{eq:2} auf:
 
 \begin{equation}
-	\qs = \sm \Big(y_i^2 - 2y_i (ax_i+b) + (ax_i +b)^2\Big)
+	\qs = \sm \Big( \overbrace{y_i^2}^{s^2} - \overbrace{2y_i (ax_i+b)}^{-2st} + \overbrace{(ax_i +b)^2}^{t^2}\Big)
 \end{equation}
 
 Da der Term \((ax_i +b)^2\) der 1. Binomischen Formel\footnote{\quad 1. Binomische Formel: \((s+t)^2 = s^2 +2st + t^2\)} entspricht, lösen wir auch diesen auf und vereinfachen:
 
 \begin{equation}
-	\qs = \sm \Big(y_i^2 - 2ax_iy_i - 2by_i + a^2x_i^2 + 2abx_i + b^2\Big)\label{eq:simp}
+	\qs = \sm \Big(y_i^2 - 2ax_iy_i - 2by_i + \overbrace{a^2x_i^2}^{s^2} + \overbrace{2abx_i}^{2st} + \overbrace{b^2}^{t^2}\Big)\label{eq:simp}
 \end{equation}
 
-Ausgehend von Gleichung \ref{eq:simp} bilden wir jetzt die partiellen Ableitungen nach $a$ und $b$:
+Ausgehend von Gleichung \ref{eq:simp} bilden wir jetzt die partiellen Ableitungen nach $a$ und $b$. 
 
 \begin{align}
 \frac{\partial \qs}{\partial a}	&= \sm (-2x_iy_i + 2ax_i^2 + 2bx_i) \label{eq:parta1}\\
-								&= 2 \sm x_i(-y_i + ax_i + b) \label{eq:parta2} 
+								&= 2 \sm x_i(-y_i + ax_i + b) \label{eq:parta2a} \\
+								&= 2 \sm x_i(ax_i + b -y_i ) \label{eq:parta2} 
 \end{align}
 
 \begin{align}
@@ -367,7 +367,7 @@ Durch Ausmultiplizieren und Vereinfachen ergibt sich:
      &= \sm \big( ax_i^2 - a\bar{x}x_i \big) + \sm x_i\bar{y} - \sm x_iy_i 
 \end{align}
 
-Jetzt subtrahiert man $\sm x_iy_i$ und addiert $\sm x_i\bar{y}$, um diese beiden Teile auf die andere Seite der Gleichung zu bekommen.
+Jetzt addiert man $\sm x_iy_i$ und subtrahiert $\sm x_i\bar{y}$, um diese beiden Teile auf die andere Seite der Gleichung zu bekommen.
 
 \begin{equation}
 \sm (ax_i^2 -ax_i\bar{x}) = \sm x_iy_i - \sm x_i\bar{y} 
@@ -403,12 +403,22 @@ Jetzt zerlegen wir die Summe unter dem Bruchstrich in Einzelsummen und ziehen $\
 a =  \dfrac{\sm x_iy_i - \bar{y} n\bar{x}}{\sm x_i^2 - \bar{x} \sm x_i}
 \end{equation}
 
-Über alternative Formeln zu Varianz und Kovarianz\footnote{Verschiebungssatz: \\ $\cov(X,Y) = \E \left((X - \E(X))(Y - \E(Y)\right)) =\E(X,Y)- \E(X)\E(Y)$ \\ $\var(X)=\E\left(\left(X-\E(X)\right)^2\right)=\E(X^2)-\left(\E(X)\right)^2$} erhalten wir
+Über Formeln zu Varianz und Kovarianz\footnote{Verschiebungssatz: \\ $\cov(X,Y) = \E \left((X - \E(X))(Y - \E(Y)\right)) =\E(X,Y)- \E(X)\E(Y)$ \\ $\var(X)=\E\left(\left(X-\E(X)\right)^2\right)=\E(X^2)-\left(\E(X)\right)^2$} erhalten wir
 
 \begin{equation}
 a =  \dfrac{\sm x_iy_i - n\bar{x}\bar{y}}{\sm x_i^2 -n\bar{x}^2} = \dfrac{n \left(\frac{1}{n}\sm x_iy_i - \bar{x}\bar{y}\right)}{ n\left( \frac{1}{n}\sm x_i^2 -\bar{x}^2\right)}  = \dfrac{n\cov(x,y)}{n\var(x)} = \dfrac{\cov(x,y)}{\var(x)}
 \end{equation}
 
+Damit haben wir die beiden Gleichungen hergeleitet, um die optimale (die Quadratsumme der Abstände minimierenden) Regressionsgerade zu bestimmen:
+
+\begin{equation}
+b=\bar{y} - a \bar{x}
+\end{equation}
+
+
+\begin{equation}
+a =  \dfrac{\cov(x,y)}{\var(x)}
+\end{equation}
 
 \section{Beispiel}
 
@@ -428,14 +438,22 @@ $\sum$ & 15 & 12
 \end{tabular}
 \end{center}
 
-\section{Quelldateien}
+\section{Berechnung mit dem Taschenrechner}
 
-Dieses Dokument wurde mit \LaTeX, dem freien Textsatzsystem, erstellt.
+Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um anhand von übergebenen Wertepaaren die Parameter $a$ und $b$ schnell zu bestimmen. Im Folgenden zeigen wir anhand eines Casio Schultaschenrechners vom Typ , wie es funktioniert.
+
+
+\section{Güte der Linearen Regression}
+
+In diesem Abschnitt möchten wir erläutern, wie man die Güte des linearen Modells bestimmt. Unsere Regressionsparameter $a$ und $b$ sind zwar die optimalen Modellparameter für die von uns genutzten Daten, aber
+
+
+\section*{Quelldateien}
+
+Dieses Dokument wurde mit \LaTeX, dem freien Textsatzsystem, erstellt. Die Quelldatei dieses Dokuments ist im PDF enthalten, klicken Sie einfach auf das Symbol. Sofern Ihr PDF-Betrachter Attachments unterstützt, sollten Sie auf die Quelldatei zugreifen können.
 
 \begin{tabular}{rl}
  \LaTeX & \attachfile{LinearRegressionPrimer.tex} \\
-Metapost & \attachfile{linreg_metapost.mp} \\
-Metapost (kompiliert) & \attachfile{linreg_metapost.1}
 \end{tabular}
 
 \end{document}
@@ -450,22 +468,6 @@ Metapost (kompiliert) & \attachfile{linreg_metapost.1}
 \partial
 
 \stackrel{!}{=}0 
-
-
-
-
-
-    };
-
-
-
-
-
-
-
-
-
-
 
 
 \begin{equation}
