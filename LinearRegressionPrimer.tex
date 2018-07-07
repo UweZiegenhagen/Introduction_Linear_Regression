@@ -7,7 +7,7 @@
 \usepackage{booktabs}
 \usepackage[left=3cm,right=4cm,top=3cm,bottom=3cm]{geometry}
 %\usepackage[]{mathpazo,palatino}
-\usepackage[]{fourier}
+\usepackage{fourier}
 \usepackage{microtype}
 \usepackage{tikz}
 
@@ -49,7 +49,7 @@
 \DeclareMathOperator{\E}{E}
 
 \title{Einführung in die lineare Regression}
-\subtitle{-- DRAFT --}
+\subtitle{-- DRAFT VERSION--}
 \author{Uwe Ziegenhagen}
 
 \begin{document}
@@ -61,7 +61,7 @@
 \begin{description}
 \item[v1.0] 16.03.2009, erste Version hochgeladen
 \item[v2.0] 02.03.2013, einen Vorzeichenfehler beseitigt, diverse Gleichungen und Erläuterungen zum besseren Verständnis hinzugefügt.
-\item [v3.0a] auf Github gewechselt, Metapost gegen TikZ getauscht, einige Erläuterungen verbessert, \LaTeX\ Code aufgeräumt
+\item [v3.0] auf Github gewechselt, Metapost gegen TikZ getauscht, einige Erläuterungen verbessert, \LaTeX\ Code aufgeräumt
 \end{description}
 
 \section{Einführung}
@@ -93,7 +93,7 @@ $X$-Wert & $Y$-Wert \\ \midrule
 Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot}) wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ ebenfalls steigen.
 
 \begin{center}
-\vspace*{1em}\begin{tikzpicture}[scale=1.5,
+\vspace*{1em}\begin{tikzpicture}[scale=1.15,
     punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
 ]
 
@@ -111,7 +111,20 @@ Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot
 \node  [below] (X) at (7,0){X};
 \node  [left] (Y) at (0,6){Y};
 
-%\draw[blue, very thick](0,1.5)--(6,3.3);
+\node  [below] (x1) at (1,0){1};
+\node  [below] (x2) at (2,0){2};
+\node  [below] (x3) at (3,0){3};
+\node  [below] (x4) at (4,0){4};
+\node  [below] (x5) at (5,0){5};
+\node  [below] (x6) at (6,0){6};
+
+\node  [left] (y1) at (0,1){1};
+\node  [left] (y2) at (0,2){2};
+\node  [left] (y3) at (0,3){3};
+\node  [left] (y4) at (0,4){4};
+\node  [left] (y5) at (0,5){5};
+
+\draw[blue, very thick](0,0.8)--(5,4.6);
 %\node[punkt] (A) at (9,1){};
 %\node[draw] (B) at (8,4){B};
 %\draw (A) -- (B);
@@ -184,8 +197,8 @@ Da aber eine Einschätzung wie \enquote{recht gut} nicht wirklich mathematisch e
 Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Geraden die Punkte in grün markiert, die die Regressionsgleichung für den jeweiligen Wert von $X$ vorhersagt, außerdem wurden die jeweiligen Abstände zwischen dem wahren $Y$-Wert und dem geschätzten $Y$-Wert (den wir ab jetzt $\hat Y$ nennen) markiert. 
 
 \begin{tikzpicture}[scale=1,
-    pred/.style={circle, minimum size = 0.05cm,blue,fill=green},
-    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+    pred/.style={circle, minimum size = 0.04cm,blue,fill=green},
+    punkt/.style={circle, minimum size = 0.04cm,blue,fill=red},
 ]
 
 %\draw[help lines,yellow,thin] (0,0) grid (7,6);
@@ -272,15 +285,16 @@ S = \sm y_i - \hat{y}_i
 \end{equation}\label{eq:abstaende}
 
 In Worten: S ist die Summe aller Differenzen von wahrem und geschätzten $y$-Wert.
-Es hat sich jedoch herausgestellt, dass es sinnvoll ist, nicht einfach die Summe der Abstände zu minimieren, sondern die Summe der quadrierten Abstände.  Es lässt sich dann recht leicht damit rechnen, zur Not auch ohne Taschenrechner. Es gibt aber -- das sollte man vielleicht im Kopf behalten -- noch andere Arten, diese Fehlerfunktion zu bestimmen.
 
-Aus Gleichung \ref{eq:abstaende} wird jetzt -- da wir die Quadratsumme minimieren wollen -- die folgende Gleichung:
+Es hat sich als mathematisch sinnvoll herausgestellt, nicht einfach die Summe der Abstände zu minimieren, sondern die Summe der \textit{quadrierten} Abstände. Es lässt sich nicht nur leicht damit rechnen, der Kleinste-Quadrate-Schätzer ist auch -- sofern die  Annahmen des klassischen linearen Regressionsmodells nicht verletzt sind -- BLUE (\enquote{Best Linear Unbiased Estimator}). Dazu später mehr\ldots
+
+Aus Gleichung \ref{eq:abstaende} wird jetzt -- da wir ja die Quadratsumme minimieren wollen -- die folgende Gleichung:
 
 \begin{equation}
 QS = \left(\sm y_i - \hat{y}_i\right)^2
 \end{equation}\label{eq:qabstaende}
 
-Diese Quadratsumme der Abweichungen ist nur abhängig von den Parametern $a$ und $b$ der Regressionsgleichung, daher können wir schreiben:
+Diese Quadratsumme der Abweichungen ist nur abhängig von den Parametern \(a\) und \(b\) der Regressionsgleichung, daher können wir schreiben:
 
 \begin{equation}
 QS(a,b) = \left(\sm y_i - \hat{y}_i\right)^2
@@ -293,11 +307,11 @@ QS(a,b) = \left(\sm y_i - \hat{y}_i\right)^2
 %\includegraphics[width=0.75\textwidth]{linreg_metapost.1}
 %\end{center}
 
-Im Folgenden werden wir diese Funktion partiell ableiten, um die Gleichungen für die optimalen $a$ und $b$ zu ermitteln. 
+Im Folgenden werden wir diese Funktion partiell ableiten, um die Gleichungen für die optimalen \(a\) und \(b\) zu ermitteln. 
 
 \section{Herleitung der Parameter-Gleichungen}
 
-Wir schreiben Gleichung \ref{eq:qabstaende} nochmals auf und ersetzen $\hat y$ durch die Modellgleichung:
+Wir schreiben Gleichung \ref{eq:qabstaende} nochmals auf und ersetzen \(\hat y\) durch die Modellgleichung:
 
 \begin{align}\label{eq:1}
 \qs	&  = \sm \left(y_i - \hat{y}_i\right)^2\\
@@ -316,7 +330,7 @@ Da der Term \((ax_i +b)^2\) der 1. Binomischen Formel\footnote{\quad 1. Binomisc
 	\qs = \sm \Big(y_i^2 - 2ax_iy_i - 2by_i + \overbrace{a^2x_i^2}^{s^2} + \overbrace{2abx_i}^{2st} + \overbrace{b^2}^{t^2}\Big)\label{eq:simp}
 \end{equation}
 
-Ausgehend von Gleichung \ref{eq:simp} bilden wir jetzt die partiellen Ableitungen nach $a$ und $b$. 
+Ausgehend von Gleichung \ref{eq:simp} bilden wir jetzt die partiellen Ableitungen nach \(a\) und \(b\). 
 
 \begin{align}
 \frac{\partial \qs}{\partial a}	&= \sm (-2x_iy_i + 2ax_i^2 + 2bx_i) \label{eq:parta1}\\
@@ -338,7 +352,7 @@ Wenn wir Gleichung \ref{eq:partb2} nullsetzen und auflösen, erhalten wir
 \end{alignat}
 %& 2 \sm y_i &&- 2\sm ax_i &&= 2nb
 
-Auflösen nach $b$ (durch $2n$ teilen) gibt (zusammen mit der Tatsache, dass das arithmetische Mittel allgemein als $\bar{x}= \frac{1}{n} \sm x_i$ definiert ist):
+Auflösen nach \(b\) (durch \(2n\) teilen) gibt (zusammen mit der Tatsache, dass das arithmetische Mittel allgemein als \(\bar{x}= \frac{1}{n} \sm x_i \) definiert ist):
 
 \begin{align}
 b &= \frac{\sm y_i}{n} - \frac{\sm ax_i}{n} \\
@@ -346,7 +360,7 @@ b &= \frac{\sm y_i}{n} - \frac{\sm ax_i}{n} \\
 	&= \bar{y} - a \bar{x}
 \end{align}
 
-Setzen wir nun $b=\bar{y} - a \bar{x}$ in Gleichung \ref{eq:parta2} ein, erhalten wir
+Setzen wir nun \(b=\bar{y} - a \bar{x}\) in Gleichung \ref{eq:parta2} ein, erhalten wir
 
 \begin{equation}
 	2\sm x_i \big(ax_i + (\bar{y} - a \bar{x}) - y_i\big)=0
@@ -356,7 +370,7 @@ Setzen wir nun $b=\bar{y} - a \bar{x}$ in Gleichung \ref{eq:parta2} ein, erhalte
 Durch Ausmultiplizieren und Vereinfachen ergibt sich:
 
 \begin{align}
-0 &= 	\sm x_i \big(ax_i + (\bar{y} - a \bar{x}) - y_i\big) \\
+  0 &= \sm x_i \big(ax_i + (\bar{y} - a \bar{x}) - y_i\big) \\
 	&= \sm \big(ax_i^2+x_i(\bar{y}-a\bar{x})-x_iy_i \big) \\
      &= \sm \big(ax_i^2 + x_i\bar{y} - a\bar{x}x_i- x_iy_i \big) \\
      &= \sm \big(ax_i^2 - a\bar{x}x_i + x_i\bar{y} - x_iy_i \big) 
@@ -367,19 +381,19 @@ Durch Ausmultiplizieren und Vereinfachen ergibt sich:
      &= \sm \big( ax_i^2 - a\bar{x}x_i \big) + \sm x_i\bar{y} - \sm x_iy_i 
 \end{align}
 
-Jetzt addiert man $\sm x_iy_i$ und subtrahiert $\sm x_i\bar{y}$, um diese beiden Teile auf die andere Seite der Gleichung zu bekommen.
+Jetzt addiert man \(\sm x_iy_i\) und subtrahiert \(\sm x_i\bar{y}\), um diese beiden Teile auf die andere Seite der Gleichung zu bekommen.
 
 \begin{equation}
 \sm (ax_i^2 -ax_i\bar{x}) = \sm x_iy_i - \sm x_i\bar{y} 
 \end{equation}
 
-Da $a$ konstant ist, können wir es vor die Klammer ziehen.
+Da \(a\) konstant ist, können wir es vor die Klammer ziehen.
 
 \begin{equation}
 a \sm (x_i^2 -x_i\bar{x}) = \sm x_iy_i - \bar{y} \sm x_i 
 \end{equation}
 
-Jetzt teilen wir durch $\sm (x_i^2 -x_i\bar{x})$
+Jetzt teilen wir durch \(\sm (x_i^2 -x_i\bar{x})\)
 
 %\begin{equation}
 %a \dfrac{\cancel{\sm (x_i^2 -x_i\bar{x})}}{\cancel{\sm (x_i^2 -x_i\bar{x})}}=  \dfrac{\sm x_iy_i - \bar{y} \sm x_i}{\sm (x_i^2 -x_i\bar{x})}
@@ -397,7 +411,7 @@ a =  \dfrac{\sm x_iy_i - \bar{y} n \bar{x}}{ \sm \big( x_i^2 -  \sm x_i \bar{x} 
 \end{equation}
 
 
-Jetzt zerlegen wir die Summe unter dem Bruchstrich in Einzelsummen und ziehen $\bar{x}$ vor das zweite Summenzeichen (Zur Erinnerung: konstanter Term!)
+Jetzt zerlegen wir die Summe unter dem Bruchstrich in Einzelsummen und ziehen \(\bar{x}\) vor das zweite Summenzeichen (Zur Erinnerung: konstanter Term!)
 
 \begin{equation}
 a =  \dfrac{\sm x_iy_i - \bar{y} n\bar{x}}{\sm x_i^2 - \bar{x} \sm x_i}
@@ -409,7 +423,7 @@ a =  \dfrac{\sm x_iy_i - \bar{y} n\bar{x}}{\sm x_i^2 - \bar{x} \sm x_i}
 a =  \dfrac{\sm x_iy_i - n\bar{x}\bar{y}}{\sm x_i^2 -n\bar{x}^2} = \dfrac{n \left(\frac{1}{n}\sm x_iy_i - \bar{x}\bar{y}\right)}{ n\left( \frac{1}{n}\sm x_i^2 -\bar{x}^2\right)}  = \dfrac{n\cov(x,y)}{n\var(x)} = \dfrac{\cov(x,y)}{\var(x)}
 \end{equation}
 
-Damit haben wir die beiden Gleichungen hergeleitet, um die optimale (die Quadratsumme der Abstände minimierenden) Regressionsgerade zu bestimmen:
+Damit haben wir die beiden Gleichungen hergeleitet, um die Regressionsgerade zu bestimmen:
 
 \begin{equation}
 b=\bar{y} - a \bar{x}
@@ -422,30 +436,44 @@ a =  \dfrac{\cov(x,y)}{\var(x)}
 
 \section{Beispiel}
 
-Für unser Beispiel vom Anfang hier die numerische Bestimmung der Parameter. Für $\bar{x}$ erhalten wir $3$, für $\bar{y}=2.4$, die Summe der $(x-\bar{x})(y-\bar{y})$ ergibt $3$, die Summe der $(x-\bar{x})^2=10$. Durch Einsetzen dieser Werte erhalten wir dann als Parameterwert für $b$
-1.5, als Parameterwert für $a$ 0.3, sodass die Formel unseres linearen Modells $$y=0.3\cdot x + 1.5$$ lautet.
+\clearpage
+
 
 \begin{center}
-\begin{tabular}{r|cccccc} \hline \hline
+\captionof{table}{Hilfstabelle}
+\begin{tabular}{r|cccccc} \toprule
 & 1 & 2 & 3 & 4 & 5 & 6 \\
-& $x$	&	$y$	&	$x-\bar{x}$	&	$y-\bar{y}$	&	$(x-\bar{x})(y-\bar{y})$	&	$(x-\bar{x})^2$	\\ \hline
-1 & 1	&	1	&	-2	&	-1.4	&	\, 2.8	&	4	\\
-2 & 2	&	3	&	-1	&	\, 0.6	&	-0.6	&	1	\\
-3 & 3	&	2	&	0	&	-0.4	&	\, 0.0	&	0	\\
-4 & 4	&	4	&	1	&	\, 1.6	&	\, 1.6	&	1	\\
-5 & 5	&	2	&	2	&	-0.4	&	-0.8	&	4	\\  \hline
-$\sum$ & 15 & 12 
+& $x$	&	$y$	&	$x-\bar{x}$	&	$y-\bar{y}$	&	$(x-\bar{x})(y-\bar{y})$	&	$(x-\bar{x})^2$	\\ \midrule
+1 & 1	&	1	&	-2	&	-2	&	4	&	4	\\
+2 & 2	&	3	&	-1	&	0	&	0	&	1	\\
+3 & 3	&	2	&	0	&	-1	&	0	&	0	\\
+4 & 4	&	5	&	1	&	2	&	2	&	1	\\
+5 & 5	&	4	&	2	&	1	&	2	&	4	\\  \midrule
+$\sum$ & 15 & 15 & & & 8 & 10 \\ \bottomrule
 \end{tabular}
 \end{center}
 
+%
+%Für unser Beispiel vom Anfang hier die numerische Bestimmung der Parameter. Für \(\bar{x}\) erhalten wir 15/5 = 3, für \(\bar{y}\) ebenfalls 15/5 = 3, die Summe der \((x-\bar{x})(y-\bar{y})\) ergibt 7, die Summe der \((x-\bar{x})^2=10\). Durch Einsetzen dieser Werte erhalten wir dann als Parameterwert für \(b = 3 - a * 3\)
+%1.5, als Parameterwert für \(a\) 0.3, sodass die Formel unseres linearen Modells \[y=0.3\cdot x + 1.5\] lautet.
+
+Mit Hilfe der Werte aus der Tabelle lassen sich \(a\) und \(b\) einfach bestimmen. Hinweis: \(\bar x = 15/5 = 3\), \(\bar y = 15/5 = 3\)
+
+\[ a = \frac{\frac{\sum_{i=1}^n \left(x_i-\bar x \right)\left(y_i-\bar y \right)}{5}}{ 
+\frac{\sum_{i=1}^5 \left( x_i - \bar x \right)^2}{5}} = \frac{\sum_{i=1}^n\left(x_i-\bar x \right)\left(y_i-\bar y \right)}{\sum_{i=1}^n \left(x_i-\bar x \right)^2}  = \frac{8}{10} = 0.8 \]
+
+Hinweis zu dieser Rechnung: Brüche werden dividiert, indem man mit dem Kehrwert multipliziert: \( \frac{\nicefrac{1}{5}}{\nicefrac{1}{5}}   = \nicefrac{1}{5} \cdot \nicefrac{5}{1}  = 1 \). Für die Berechnung von \(a\) braucht man die Anzahl der Beobachtungen also nicht mehr.
+
+\[ b = \bar y - a\cdot \bar x = 3 - 0.8 \cdot 3 = 3 - 2.4 = 0.6 \]
+
 \section{Berechnung mit dem Taschenrechner}
 
-Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um anhand von übergebenen Wertepaaren die Parameter $a$ und $b$ schnell zu bestimmen. Im Folgenden zeigen wir anhand eines Casio Schultaschenrechners vom Typ , wie es funktioniert.
+Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um anhand von übergebenen Wertepaaren die Parameter $a$ und $b$ schnell zu bestimmen. Im Folgenden zeigen wir anhand eines Casio Schultaschenrechners vom Typ , wie es funktioniert. \marginpar{TODO!}
 
 
 \section{Güte der Linearen Regression}
 
-In diesem Abschnitt möchten wir erläutern, wie man die Güte des linearen Modells bestimmt. Unsere Regressionsparameter $a$ und $b$ sind zwar die optimalen Modellparameter für die von uns genutzten Daten, aber
+In diesem Abschnitt möchten wir erläutern, wie man die Güte des linearen Modells bestimmt. Unsere Regressionsparameter \(a\) und \(b\) sind zwar die optimalen Modellparameter für die von uns genutzten Daten, aber
 
 
 \section*{Quelldateien}
