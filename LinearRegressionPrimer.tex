@@ -11,6 +11,49 @@
 \usepackage{microtype}
 \usepackage{tikz}
 
+\usepackage{listings}
+
+\lstset{literate=%
+    {Ö}{{\"O}}1
+    {Ä}{{\"A}}1
+    {Ü}{{\"U}}1
+    {ß}{{\ss}}1
+    {ü}{{\"u}}1
+    {ä}{{\"a}}1
+    {ö}{{\"o}}1
+    {~}{{\textasciitilde}}1
+}
+
+\definecolor{hellgelb}{rgb}{1,1,0.8}
+\definecolor{colKeys}{rgb}{0,0,1}
+\definecolor{colIdentifier}{rgb}{0,0,0}
+\definecolor{colComments}{rgb}{1,0,0}
+\definecolor{colString}{rgb}{0,0.5,0}
+
+
+
+\lstset{%
+    float=hbp,%
+    basicstyle=\ttfamily\small, %
+    identifierstyle=\color{colIdentifier}, %
+    keywordstyle=\color{colKeys}, %
+    stringstyle=\color{colString}, %
+    commentstyle=\color{colComments}, %
+    columns=flexible, %
+    tabsize=2, %
+    frame=single, %
+    extendedchars=true, %
+    showspaces=false, %
+    showstringspaces=false, %
+    numbers=left, %
+    numberstyle=\tiny, %
+    breaklines=true, %
+    backgroundcolor=\color{hellgelb}, %
+    breakautoindent=true, %
+    captionpos=b%
+}
+
+
 
 % body:            Palatino 10pt
 % section titles:  Palatino Bold
@@ -137,8 +180,31 @@ Wenn wir den Zusammenhang dieser Punkte mittels Gerade (also \enquote{linear}) m
 \begin{equation}
 	 Y_i = b + a \cdot x_i + \epsilon_i
 \end{equation}
-   
+
+\begin{center}
+\begin{tikzpicture}[scale=1,
+    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+]
+
+\draw[help lines,yellow,thin] (0,0) grid (7,6);
+\draw [->,thick] (0,0) -- (7,0);
+\draw [->,thick] (0,0) -- (0,6);
+\node  [below] (X) at (7,0){X};
+\node  [left] (Y) at (0,6){Y};
+\draw[blue, very thick](0,1)--(6,4);
+\draw[red, very thick](2,2)--(5,2);
+\draw[green, very thick](5,2)--(5,3.5);
+\draw[magenta, very thick](-0.1,0.1)--(-0.1,0.9);
+\node  [left] (b) at (0,1){b};
+\node  [right] (y) at (5,2.75){\(\Delta y\)};
+\node  [below] (x) at (3.5,2){\(\Delta x\)};
+\end{tikzpicture}
+\captionof{figure}{Grafische Erläuterung}\label{fig:grafisch}
+\end{center}
+
 $b$ ist dabei der Achsenabschnitt, also der Punkt $(0,b)$, an dem die X-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. ($\epsilon_i$ steht für die Fehler, den wir bei der Modellierung machen, darauf kommen wir später noch zu sprechen). 
+
+Abbildung \ref{fig:grafisch} beschreibt diesen Zusammenhang grafisch: der Achsenabschnitt ist der Schnittpunkt der Geraden mit der Y-Achse, der Anstieg das Verhältnis von \(\Delta y\) zu \(\Delta x\).
 
 Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für beliebig gewählte Regressionsgeraden. Im linken Plot erkennt man sehr deutlich, dass die Gerade nicht zu unseren Punkten passt, sie zeigt in die falsche Richtung und unterstellt damit, dass mit steigendem $X$ die Werte für $Y$ sinken. Im rechten Plot stimmt die Richtung, die Gerade sieht schon \enquote{recht gut} aus. 
 
@@ -509,14 +575,50 @@ Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Reg
 \end{center}
 
 
-\section{Berechnung mit dem Taschenrechner}
-
-Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um anhand von übergebenen Wertepaaren die Parameter $a$ und $b$ schnell zu bestimmen. Im Folgenden zeigen wir anhand eines Casio Schultaschenrechners vom Typ , wie es funktioniert. \marginpar{TODO!}
 
 
 \section{Güte der Linearen Regression}
 
 In diesem Abschnitt möchten wir erläutern, wie man die Güte des linearen Modells bestimmt. Unsere Regressionsparameter \(a\) und \(b\) sind zwar die optimalen Modellparameter für die von uns genutzten Daten, aber
+
+
+
+
+
+\section{Berechnung mit dem Taschenrechner}
+
+\subsection{Schultaschenrechner}
+
+Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um anhand von übergebenen Wertepaaren die Parameter $a$ und $b$ schnell zu bestimmen. Im Folgenden zeigen wir anhand eines Casio Schultaschenrechners vom Typ , wie es funktioniert. \marginpar{TODO!}
+
+\subsection{HP Taschenrechner}
+
+
+
+\section{Code-Beispiele}
+
+
+\subsection{Python}
+
+\lstinputlisting[language=Python,morekeywords={linregress}]{linreg-01.py}
+
+\subsection{R}
+
+
+\subsection{Microsoft Excel}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \section*{Quelldateien}
@@ -525,7 +627,10 @@ Dieses Dokument wurde mit \LaTeX, dem freien Textsatzsystem, erstellt. Die Quell
 
 \begin{tabular}{rl}
  \LaTeX & \attachfile{LinearRegressionPrimer.tex} \\
+ Python & \attachfile{linreg-01.py} \\
 \end{tabular}
+
+
 
 \end{document}
 
