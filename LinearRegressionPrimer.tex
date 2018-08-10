@@ -364,7 +364,7 @@ Diese Quadratsumme der Abweichungen ist nur abhängig von den Parametern \(a\) u
 
 \begin{equation}
 QS(a,b) = \left(\sm y_i - \hat{y}_i\right)^2
-\end{equation}\label{eq:qabstaende}
+\end{equation}\label{eq:qabstaende2}
 
 
 %Die Vorgehensweise bei der linearen Regression veranschaulicht folgende Grafik. Gegeben sind Wertepaare $x_i,y_i$, als schwarze Punkte eingezeichnet. Grün sind die Werte $(\hat{x},\hat{y})$ die durch die lineare Regressionsfunktion errechnet werden. Die roten Linien symbolisieren die Abweichungen\footnote{Es ist egal, ob man $y_i-\hat{y}_i$ oder $\hat{y}_i-y_i$ schreibt, durch die Quadrierung heben sich eventuelle negative Vorzeichen auf.}  $e_i=y_i-\hat{y}_i$ dieser durch die Gleichung bestimmten Punkte von den wahren Punkten. Aufgabe bei der Bestimmung der Parameter ist es nun, $a$ und $b$ so zu wählen, dass die Summe QS der quadrierten Abweichungen -- also $\sum_{i=1}^n (y_i-\hat{y}_i)^2$ -- minimal wird. 
@@ -574,24 +574,62 @@ Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Reg
 \captionof{figure}{Scatterplot mit Regressionsgerade}\label{fig:final}\vspace*{1em}
 \end{center}
 
+\section{Maße für die Güte der Linearen Regression}
+
+In diesem Abschnitt möchte ich erläutern, wie man die Stärke des linearen Zusammenhangs und die Güte des linearen Modells bestimmt. Unsere Regressionsparameter \(a\) und \(b\) sind die optimalen Modellparameter für die von uns genutzten Daten, aber sie erklären nicht wie gut die Werte der unabhängigen Variablen die Werte unserer abhängigen Variablen erklären.
+
+Schauen wir uns zuerst den Korrelationskoeffizienten \(r\) an: Der Bravais-Pearson-Koeffizient \(r\) misst die Stärke und Richtung des linearen Zusammenhangs zwischen zwei metrischen Variablen. Für \(r\) gibt es zwei Formeln:
+
+\begin{equation}
+r = 
+\end{equation}
+
+\begin{equation}
+r = 
+\end{equation}
 
 
 
-\section{Güte der Linearen Regression}
-
-In diesem Abschnitt möchten wir erläutern, wie man die Güte des linearen Modells bestimmt. Unsere Regressionsparameter \(a\) und \(b\) sind zwar die optimalen Modellparameter für die von uns genutzten Daten, aber
 
 
+Um hierüber eine Aussage zu treffen, nutzt man das sogenannte Bestimmtheitsmaß \(R^2\), je nach Literatur auch \enquote{Determinationskoeffizient} genannt. \(R^2\) ist ein Anteilswert, der die erklärte Varianz in das Verhältnis zur Gesamtvarianz setzt. Daraus folgt, dass \(R^2\) Werte zwischen 0 und 1 (0\% und 100\%) annehmen kann. 
+
+Die Formel dafür lautet:
+
+\begin{equation}
+R^2 = \frac{\sum_{i=1}^n (\hat{y_i} - \bar{y})^2} {\sum_{i=1}^n (y_i - \bar{y})^2}
+\end{equation}
+
+Rechnen wir im nächsten Schritt mal \(R^2\) für unser Zahlenbeispiel aus:
 
 
+\begin{center}
+\captionof{table}{Hilfstabelle für die Berechnung von \(R^2\)}
+\begin{tabular}{r|lllr} \toprule
+i & \(y_i\)  & \(\hat{y_i}\) & \((\hat{y_i} - \bar{y})^2 \)&  \((y_i - \bar{y})^2\) \\ \midrule
+1 & 1 &  1.4 & 2.56    & 4.0\\
+2 & 3 &  2.2 &  0.64 & 0.0\\
+3 & 2 &  3.0 & 0.0     & 1.0\\ 
+4 & 5 &  3.8 & 0.64    & 4.0\\ 
+5 & 4 &  4.6 & 2.56    & 1.0\\ \midrule
+\(\sum\) & & & 6.4 & 10.0\\ \bottomrule
+\end{tabular}
+\end{center}
+
+Damit ergibt sich
+
+\begin{equation}
+R^2 = \frac{6.4}{10.0} = 64 \%
+\end{equation}
+
+
+Zu beachten ist, dass \(R^2\) nur eine Aussage über den \textit{linearen} Zusammenhang trifft, für Daten mit einem nicht-linearen Zusammenhang ist es nicht geeignet.
 
 \section{Berechnung mit dem Taschenrechner}
 
 \subsection{Schultaschenrechner}
 
 Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um anhand von übergebenen Wertepaaren die Parameter $a$ und $b$ schnell zu bestimmen. Im Folgenden zeigen wir anhand eines Casio Schultaschenrechners vom Typ , wie es funktioniert. \marginpar{TODO!}
-
-\subsection{HP Taschenrechner}
 
 
 
@@ -626,8 +664,8 @@ Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um
 Dieses Dokument wurde mit \LaTeX, dem freien Textsatzsystem, erstellt. Die Quelldatei dieses Dokuments ist im PDF enthalten, klicken Sie einfach auf das Symbol. Sofern Ihr PDF-Betrachter Attachments unterstützt, sollten Sie auf die Quelldatei zugreifen können.
 
 \begin{tabular}{rl}
- \LaTeX & \attachfile{LinearRegressionPrimer.tex} \\
- Python & \attachfile{linreg-01.py} \\
+  \LaTeX & \attachfile{LinearRegressionPrimer.tex} \\
+  Python & \attachfile{linreg-01.py} \\
 \end{tabular}
 
 
@@ -651,4 +689,3 @@ Dieses Dokument wurde mit \LaTeX, dem freien Textsatzsystem, erstellt. Die Quell
 \end{equation}
 
 Da der Term \((ax_i +b)^2\) der 1. Binomischen Formel entspricht, l�sen wir auch diesen auf:
-
