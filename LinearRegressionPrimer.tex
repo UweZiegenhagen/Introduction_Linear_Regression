@@ -10,6 +10,12 @@
 \usepackage{fourier}
 \usepackage{microtype}
 \usepackage{tikz}
+\usepackage[]{mdframed}
+
+\definecolor{mygray}{rgb}{0.9,0.9,0.9}
+
+\newmdenv [linecolor=black,backgroundcolor=mygray,  frametitle=Anmerkung,leftmargin=0.5cm,rightmargin=0.5cm]{infobox}
+
 
 \usepackage{listings}
 
@@ -136,7 +142,8 @@ $X$-Wert & $Y$-Wert \\ \midrule
         2 &3\\
         3 &2\\
         4 &5\\
-        5 &4\\ \bottomrule[2pt]
+        5 &4\\ 
+        6 & 5 \\ \bottomrule[2pt]
 \end{tabular}
 \end{center}
 \captionof{table}{Tabelle mit Wertepaaren}\label{tab:werte}\vspace*{1em}
@@ -144,23 +151,24 @@ $X$-Wert & $Y$-Wert \\ \midrule
 Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot}) wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ ebenfalls steigen.
 
 \begin{center}
-\vspace*{1em}\begin{tikzpicture}[scale=1.15,
+\vspace*{1em}\begin{tikzpicture}[scale=1.0,
     punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
 ]
 
-\draw[help lines,yellow,thin] (0,0) grid (7,6);
+\draw[help lines,yellow,thin] (0,0) grid (9,9);
 
-\draw [->,thick] (0,0) -- (7,0);
-\draw [->,thick] (0,0) -- (0,6);
+\draw [->,thick] (0,0) -- (9,0);
+\draw [->,thick] (0,0) -- (0,9);
 
 \node  [punkt] (A) at (1,1){};
 \node  [punkt] (B) at (2,3){};
 \node  [punkt] (C) at (3,2){};
 \node  [punkt] (D) at (4,5){};
 \node  [punkt] (E) at (5,4){};
+\node  [punkt] (F) at (6,5){};
 
-\node  [below] (X) at (7,0){X};
-\node  [left] (Y) at (0,6){Y};
+\node  [below] (X) at (4.5,-0.5){X};
+\node  [left] (Y) at (-0.5,4.5){Y};
 
 \node  [below] (x1) at (1,0){1};
 \node  [below] (x2) at (2,0){2};
@@ -168,12 +176,19 @@ Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot
 \node  [below] (x4) at (4,0){4};
 \node  [below] (x5) at (5,0){5};
 \node  [below] (x6) at (6,0){6};
+\node  [below] (x7) at (7,0){7};
+\node  [below] (x8) at (8,0){8};
+\node  [below] (x9) at (9,0){9};
 
 \node  [left] (y1) at (0,1){1};
 \node  [left] (y2) at (0,2){2};
 \node  [left] (y3) at (0,3){3};
 \node  [left] (y4) at (0,4){4};
 \node  [left] (y5) at (0,5){5};
+\node  [left] (y6) at (0,6){6};
+\node  [left] (y7) at (0,7){7};
+\node  [left] (y8) at (0,8){8};
+\node  [left] (y9) at (0,9){9};
 
 %\draw[blue, very thick](0,0.8)--(5,4.6);
 %\node[punkt] (A) at (9,1){};
@@ -498,6 +513,12 @@ a =  \dfrac{\sm x_iy_i - \bar{y} n\bar{x}}{\sm x_i^2 - \bar{x} \sm x_i}
 a =  \dfrac{\sm x_iy_i - n\bar{x}\bar{y}}{\sm x_i^2 -n\bar{x}^2} = \dfrac{n \left(\frac{1}{n}\sm x_iy_i - \bar{x}\bar{y}\right)}{ n\left( \frac{1}{n}\sm x_i^2 -\bar{x}^2\right)}  = \dfrac{n\cov(x,y)}{n\var(x)} = \dfrac{\cov(x,y)}{\var(x)}
 \end{equation}
 
+ 
+\begin{infobox}
+Die Kovarianz ist definiert als der Erwartungswert der Produkte der Abweichungen zweier Zufallsvariablen von ihren jeweiligen Populations-Mittelwerten und ist ein Maß für den linearen Zusammenhang. Eine positive Kovarianz bedeutet, dass sich beide Zufallsvariablen in eine Richtung gemeinsam bewegen (positiv-positiv), eine negative Kovarianz bedeutet, dass sich beide Variablen entgegengesetzt bewegen (positiv-negativ).
+\end{infobox}
+
+
 Damit haben wir die beiden Gleichungen hergeleitet, um die Regressionsgerade zu bestimmen:
 
 \begin{equation}
@@ -511,55 +532,56 @@ a =  \dfrac{\cov(x,y)}{\var(x)}
 
 Wie lassen sich die beiden Parameter interpretieren? \(b\), die Steigung, gibt den durchschnittlichen Betrag wider, um den sich \(y\) ändert, wenn \(x\) um eine Einheit verändert wird. \(a\) gibt den Betrag von \(y\) an, wenn \(x\) 0 ist. Je nachdem, welche Größen untersucht werden, kann ein \(x\) von 0 sinnvoll interpretiert werden oder nicht. Für eine Untersuchung des  Körpergewichts in Abhängigkeit von der Körpergröße spielt die Körpergröße \(x=0\) sicherlich keine Rolle\ldots    
 
-\section{Beispiel}
+\clearpage\section{Beispiel}
 
 \begin{center}
 \captionof{table}{Hilfstabelle}
 \begin{tabular}{r|cccccc} \toprule
-& 1 & 2 & 3 & 4 & 5 & 6 \\
+Spalte & 1 & 2 & 3 & 4 & 5 & 6 \\
 & $x$	&	$y$	&	$x-\bar{x}$	&	$y-\bar{y}$	&	$(x-\bar{x})(y-\bar{y})$	&	$(x-\bar{x})^2$	\\ \midrule
-1 & 1	&	1	&	-2	&	-2	&	4	&	4	\\
-2 & 2	&	3	&	-1	&	0	&	0	&	1	\\
-3 & 3	&	2	&	0	&	-1	&	0	&	0	\\
-4 & 4	&	5	&	1	&	2	&	2	&	1	\\
-5 & 5	&	4	&	2	&	1	&	2	&	4	\\  \midrule
-$\sum$ & 15 & 15 & & & 8 & 10 \\ \bottomrule
+1 & 1	&  1& -2.5	&	-2.3333	&	5.8333	&6.25		\\
+2 & 2	&	3	&	-1.5	&	-0.3333	&	0.5	&	2.25	\\
+3 & 3	&	2	&	-0.5	&	-1.3333	&	0.6666	&	0.25	\\
+4 & 4	&	5	&	0.5	&	1.6666	&0.83333 	&	2.25	\\
+5 & 5	&	4	&	1.5	&	0.6666	&1	&	2.25	\\  
+6 & 6	&	5	&	2.5	&	1.6666	&	4.166666	&	6.25	\\  
+\midrule
+$\sum$ & 21 & 20 & & & 13 & 17.5 \\ \bottomrule
 \end{tabular}
 \end{center}
 
-%
-%Für unser Beispiel vom Anfang hier die numerische Bestimmung der Parameter. Für \(\bar{x}\) erhalten wir 15/5 = 3, für \(\bar{y}\) ebenfalls 15/5 = 3, die Summe der \((x-\bar{x})(y-\bar{y})\) ergibt 7, die Summe der \((x-\bar{x})^2=10\). Durch Einsetzen dieser Werte erhalten wir dann als Parameterwert für \(b = 3 - a * 3\)
-%1.5, als Parameterwert für \(a\) 0.3, sodass die Formel unseres linearen Modells \[y=0.3\cdot x + 1.5\] lautet.
+Mit Hilfe der Werte aus der Tabelle lassen sich \(a\) und \(b\) einfach bestimmen. Hinweis: \(\bar x = 21/6 = 3.5\), \(\bar y = 20/6 = 3.333\)
 
-Mit Hilfe der Werte aus der Tabelle lassen sich \(a\) und \(b\) einfach bestimmen. Hinweis: \(\bar x = 15/5 = 3\), \(\bar y = 15/5 = 3\)
+\[ a = \frac{\frac{\sum_{i=1}^n \left(x_i-\bar x \right)\left(y_i-\bar y \right)}{6}}{ 
+\frac{\sum_{i=1}^6 \left( x_i - \bar x \right)^2}{6}} = \frac{\sum_{i=1}^n\left(x_i-\bar x \right)\left(y_i-\bar y \right)}{\sum_{i=1}^n \left(x_i-\bar x \right)^2}  = \frac{13}{17.5} = 0.742857143\]
 
-\[ a = \frac{\frac{\sum_{i=1}^n \left(x_i-\bar x \right)\left(y_i-\bar y \right)}{5}}{ 
-\frac{\sum_{i=1}^5 \left( x_i - \bar x \right)^2}{5}} = \frac{\sum_{i=1}^n\left(x_i-\bar x \right)\left(y_i-\bar y \right)}{\sum_{i=1}^n \left(x_i-\bar x \right)^2}  = \frac{8}{10} = 0.8 \]
+Hinweis zu dieser Rechnung: Brüche werden dividiert, indem man mit dem Kehrwert multipliziert: \( \frac{\nicefrac{1}{6}}{\nicefrac{1}{6}}   = \nicefrac{1}{6} \cdot \nicefrac{6}{1}  = 1 \). Für die Berechnung von \(a\) braucht man die Anzahl der Beobachtungen also nicht mehr.
 
-Hinweis zu dieser Rechnung: Brüche werden dividiert, indem man mit dem Kehrwert multipliziert: \( \frac{\nicefrac{1}{5}}{\nicefrac{1}{5}}   = \nicefrac{1}{5} \cdot \nicefrac{5}{1}  = 1 \). Für die Berechnung von \(a\) braucht man die Anzahl der Beobachtungen also nicht mehr.
-
-\[ b = \bar y - a\cdot \bar x = 3 - 0.8 \cdot 3 = 3 - 2.4 = 0.6 \]
+\[ b = \bar y - a\cdot \bar x = 3,333333333
+ - 0.742857143 \cdot 3.5 = 0.733333333
+ \]
 
 Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Regressionsgerade zeichnen:\vspace*{-11mm}
 
 \begin{center}
-\vspace*{1em}\begin{tikzpicture}[scale=0.95,
+\vspace*{1em}\begin{tikzpicture}[scale=1.0,
     punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
 ]
 
-\draw[help lines,yellow,thin] (0,0) grid (7,6);
+\draw[help lines,yellow,thin] (0,0) grid (9,9);
 
-\draw [->,thick] (0,0) -- (7,0);
-\draw [->,thick] (0,0) -- (0,6);
+\draw [->,thick] (0,0) -- (9,0);
+\draw [->,thick] (0,0) -- (0,9);
 
 \node  [punkt] (A) at (1,1){};
 \node  [punkt] (B) at (2,3){};
 \node  [punkt] (C) at (3,2){};
 \node  [punkt] (D) at (4,5){};
 \node  [punkt] (E) at (5,4){};
+\node  [punkt] (F) at (6,5){};
 
-\node  [below] (X) at (7,0){X};
-\node  [left] (Y) at (0,6){Y};
+\node  [below] (X) at (4.5,-0.5){X};
+\node  [left] (Y) at (-0.5,4.5){Y};
 
 \node  [below] (x1) at (1,0){1};
 \node  [below] (x2) at (2,0){2};
@@ -567,14 +589,21 @@ Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Reg
 \node  [below] (x4) at (4,0){4};
 \node  [below] (x5) at (5,0){5};
 \node  [below] (x6) at (6,0){6};
+\node  [below] (x7) at (7,0){7};
+\node  [below] (x8) at (8,0){8};
+\node  [below] (x9) at (9,0){9};
 
 \node  [left] (y1) at (0,1){1};
 \node  [left] (y2) at (0,2){2};
 \node  [left] (y3) at (0,3){3};
 \node  [left] (y4) at (0,4){4};
 \node  [left] (y5) at (0,5){5};
+\node  [left] (y6) at (0,6){6};
+\node  [left] (y7) at (0,7){7};
+\node  [left] (y8) at (0,8){8};
+\node  [left] (y9) at (0,9){9};
 
-\draw[blue, very thick](0,0.8)--(6,5.4);
+\draw[blue, very thick](0,0.7333)--(7,5.9333);
 %\node[punkt] (A) at (9,1){};
 %\node[draw] (B) at (8,4){B};
 %\draw (A) -- (B);
@@ -647,6 +676,21 @@ Je nach den gegegeben Zahlen lässt sich besser mal die eine, mal die andere Gle
 
 Wichtig ist in diesem Zusammenhang, das \(r\) keine Aussagen über die Kausalität trifft! Man könnte vielleicht für die Korrelation der Anzahl der verkauften Smartphones in Hongkong und der Anzahl der verkauften Eistüten in Vancouver ein positives \(r\) messen, kausal gibt es aber zwischen beiden Variablen keinen Zusammenhang.
 
+Mittels Signifikanztest kann man prüfen, ob der errechnet Korrelationskoeffizient tatsächlich signifikant ist oder nur ein Ergebnis des Zufalls unserer Stichprobe ist. Als Hypothesen formulieren wir
+
+\begin{description}
+\item[\(H_0\)] Die Korrelation in der Population ist 0 (\(\rho =0\)).
+\item[\(H_1\)] Die Korrelation in der Population ist ungleich 0 (\(\rho\not=0\)).
+\end{description}
+
+Als Teststatistik für diesen zweiseitigen Test erhalten wir 
+
+\begin{equation}
+t = \frac{r\sqrt{n-2}}{\sqrt{1-r^2}}
+\end{equation}
+
+\(t\) ist unter der Nullhypothese \(t\)-verteilt mit \(n-2\) Freiheitsgraden. Den kritischen Wert entnehmen wir aus der Tabelle der \(t\)-Verteilung\footnote{z.\,B. von \url{https://www.statistik.tu-dortmund.de/fileadmin/user_upload/Lehrstuehle/Oekonometrie/Lehre/WiSoOekoSS16/tabelletV.pdf}} bei beispielsweise 95\% und \(n-2\)
+und lehnen die Nullhypothese ab, wenn unsere Teststatistik kleiner als \(-1\) mal oder größer als der kritische Wert ist.
 
 
 \subsection{Bestimmtheitsmaß}
