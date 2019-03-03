@@ -112,6 +112,7 @@
 \item[v1.0] 16.03.2009, erste Version hochgeladen
 \item[v2.0] 02.03.2013, einen Vorzeichenfehler beseitigt, diverse Gleichungen und Erläuterungen zum besseren Verständnis hinzugefügt.
 \item [v3.0] auf Github gewechselt, Metapost gegen TikZ getauscht, einige Erläuterungen verbessert, \LaTeX\ Code aufgeräumt
+\item [v3.1] Erweiterung um multiple Regression, Quellcodes, Tests, etc. (DRAFT) 
 \end{description}
 
 \section{Einführung}
@@ -584,32 +585,49 @@ Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Reg
 
 \section{Maße für die Güte der Linearen Regression}
 
-In diesem Abschnitt möchte ich erläutern, wie man die Stärke des linearen Zusammenhangs und die Güte des linearen Modells bestimmt. Unsere Regressionsparameter \(a\) und \(b\) sind die optimalen Modellparameter für die von uns genutzten Daten, aber sie erklären nicht wie gut die Werte der unabhängigen Variablen die Werte unserer abhängigen Variablen erklären.
+In diesem Abschnitt möchte ich erläutern, wie man die Stärke des linearen Zusammenhangs und die Güte des linearen Modells bestimmt. Unsere Regressionsparameter \(a\) und \(b\) sind die optimalen Modellparameter für die von uns genutzten Daten, aber sie erklären nicht, wie gut die Werte der unabhängigen Variablen die Werte unserer abhängigen Variablen erklären.
 
-Schauen wir uns zuerst den Korrelationskoeffizienten \(r\) an: Der Bravais-Pearson-Koeffizient \(r\) misst die Stärke und Richtung des linearen Zusammenhangs zwischen zwei metrischen Variablen. Für \(r\) gibt es zwei Formeln:
+\subsection{Korrelationskoeffizient}
+
+Schauen wir uns zuerst den Korrelationskoeffizienten \(r\) an, auch Bravais-Pearson-Koeffizient  genannt. \(r\) misst die Stärke und Richtung des linearen Zusammenhangs zwischen zwei metrischen Variablen. Wichtig ist hier das Wort \enquote{linearen}: \(r\) kann nicht sinnvoll bei nicht-linearen (wie z.\,B. quadratischen) Zusammenhängen genutzt werden.
+
+Für \(r\) gibt es zwei Formeln:
 
 \begin{equation}
-r = 
+r = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}%
+{ \sqrt{\sum_{i=1}^n (x_i - \bar{x})^2}  \cdot \sqrt{\sum_{i=1}^n (y_i - \bar{y})^2}}
 \end{equation}
 
 \begin{equation}
-r = 
+r = \frac{\sum_{i=1}^n x_iy_i - n\bar{x}\bar{y}}%
+{\sqrt{\sum_{i=1}^n x_i^2 - n\bar{x}^2}\cdot \sqrt{\sum_{i=1}^n y_i^2 - n\bar{y}^2}}
 \end{equation}
 
+Je nach den gegegeben Zahlen lässt sich besser mal die eine, mal die andere Gleichung nutzen, vom Ergebnis her ergeben beide das gleiche.
+
+\(r\) nimmt Werte zwischen -1 und 1 an, der Wert wird wie folgt interpretiert:
+
+\begin{description}
+\item [\(r \approx 1\)] positive Korrelation, bei steigenden Werten von X steigen auch die Werte von Y. Beispiele: Größe und Gewicht einer Person, Körpergröße und Schuhgröße, Außentemperatur und Eis-Absatz an der Eisdiele
+\item [\(r \approx -1\)] negative Korrelation, bei steigenden Werten von X sinken die Werte von Y. Beispiele: Außentemperatur und Absatz von Glühwein
+\item [\(r \approx 0\)] kein linearer Zusammenhang. Beispiel: Körpergröße und Postleitzahl. Hinweis: Ein \(r\) nahe 0 bedeutet nicht, dass es keinen Zusammenhang gibt, er ist halt nur nicht linear. 
+\end{description}
+
+Wichtig ist in diesem Zusammenhang, das \(r\) keine Aussagen über die Kausalität trifft! Man könnte vielleicht für die Korrelation der Anzahl der verkauften Smartphones in Hongkong und der Anzahl der verkauften Eistüten in Vancouver ein positives \(r\) messen, kausal gibt es aber zwischen beiden Variablen keinen Zusammenhang.
 
 
 
+\subsection{Bestimmtheitsmaß}
 
-Um hierüber eine Aussage zu treffen, nutzt man das sogenannte Bestimmtheitsmaß \(R^2\), je nach Literatur auch \enquote{Determinationskoeffizient} genannt. \(R^2\) ist ein Anteilswert, der die erklärte Varianz in das Verhältnis zur Gesamtvarianz setzt. Daraus folgt, dass \(R^2\) Werte zwischen 0 und 1 (0\% und 100\%) annehmen kann. 
+Quadriert man \(r\), so erhält man das sogenannte Bestimmtheitsmaß \(R^2\), je nach Literatur auch \enquote{Determinationskoeffizient} bezeichnet. \(R^2\) ist ein Anteilswert, der die erklärte Varianz in das Verhältnis zur Gesamtvarianz setzt. Daraus folgt, dass \(R^2\) Werte zwischen 0 und 1 (0\% und 100\%) annehmen kann. 
 
 Die Formel dafür lautet:
 
 \begin{equation}
-R^2 = \frac{\sum_{i=1}^n (\hat{y_i} - \bar{y})^2} {\sum_{i=1}^n (y_i - \bar{y})^2}
+R^2 = r^2 = \frac{\sum_{i=1}^n (\hat{y_i} - \bar{y})^2} {\sum_{i=1}^n (y_i - \bar{y})^2}
 \end{equation}
 
 Rechnen wir im nächsten Schritt mal \(R^2\) für unser Zahlenbeispiel aus:
-
 
 \begin{center}
 \captionof{table}{Hilfstabelle für die Berechnung von \(R^2\)}
@@ -631,7 +649,7 @@ R^2 = \frac{6.4}{10.0} = 64 \%
 \end{equation}
 
 
-Zu beachten ist, dass \(R^2\) nur eine Aussage über den \textit{linearen} Zusammenhang trifft, für Daten mit einem nicht-linearen Zusammenhang ist es nicht geeignet.
+Zu beachten ist, dass \(R^2\) -- wie \(r\) -- nur eine Aussage über den \textit{linearen} Zusammenhang trifft, für Daten mit einem nicht-linearen Zusammenhang ist es nicht geeignet.
 
 \section{Berechnung mit dem Taschenrechner}
 
