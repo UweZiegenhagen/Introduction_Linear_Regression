@@ -509,8 +509,7 @@ b=\bar{y} - a \bar{x}
 a =  \dfrac{\cov(x,y)}{\var(x)}
 \end{equation}
 
-\clearpage
-
+Wie lassen sich die beiden Parameter interpretieren? \(b\), die Steigung, gibt den durchschnittlichen Betrag wider, um den sich \(y\) ändert, wenn \(x\) um eine Einheit verändert wird. \(a\) gibt den Betrag von \(y\) an, wenn \(x\) 0 ist. Je nachdem, welche Größen untersucht werden, kann ein \(x\) von 0 sinnvoll interpretiert werden oder nicht. Für eine Untersuchung des  Körpergewichts in Abhängigkeit von der Körpergröße spielt die Körpergröße \(x=0\) sicherlich keine Rolle\ldots    
 
 \section{Beispiel}
 
@@ -586,6 +585,39 @@ Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Reg
 \section{Maße für die Güte der Linearen Regression}
 
 In diesem Abschnitt möchte ich erläutern, wie man die Stärke des linearen Zusammenhangs und die Güte des linearen Modells bestimmt. Unsere Regressionsparameter \(a\) und \(b\) sind die optimalen Modellparameter für die von uns genutzten Daten, aber sie erklären nicht, wie gut die Werte der unabhängigen Variablen die Werte unserer abhängigen Variablen erklären.
+
+\subsection{Standardfehler der Schätzung}
+
+Der Standardfehler der Schätzung (auf englisch: standard error of estimate\enquote{SSE}) ist ein Maß dafür, wie stark die tatsächlichen \(Y\)-Werte von den geschätzten Werten (\(\hat{Y}\)) abweichen. Je kleiner der Standardfehler, desto besser ist die Erklärung durch unser Modell. 
+
+Berechnet wird der Standardfehler wie folgt:
+
+\begin{equation}
+\text{SEE} = \sqrt{\frac{\sum (y-\hat{y})^2}{N-2}}
+\end{equation}
+
+\(N-2\) steht für die Anzahl der Freiheitsgrade, der Zahl der Observationen minus der Zahl der geschätzten Parameter (in unserem Beispiel Anstieg und Achsenabschnitt).
+
+Für unser Beispiel ergibt sich SEE daher als:
+
+\begin{center}
+\captionof{table}{Berechnung des Standardfehlers}
+\begin{tabular}{r|rrrr} \toprule
+\(x_i\) & \(y_i\)  & \(\hat{y_i}\) & \(y_i-\hat{y_i}\) & \((y_i-\hat{y_i})^2\) \\ \midrule
+1 & 1 & 1.4 & -0.4 & 0.16 \\
+2 & 3 & 2.2 & 0.8 & 0.64 \\
+3 & 2 & 3.0 & -1.0  & 1.0	\\
+4 & 5 & 3.8 & 1.2 & 1.44\\
+5 & 4 & 4.6 &  -0.6 & 0.36\\ \midrule
+\(\sum\) & & & & 3.6 \\ \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{equation}
+\text{SEE} = \sqrt{\frac{3.6}{3}} = 1.0954451150103321
+\end{equation}
+
+
 
 \subsection{Korrelationskoeffizient}
 
@@ -720,7 +752,9 @@ Dieses Dokument wurde mit \LaTeX, dem freien Textsatzsystem, erstellt. Die Quell
 
 \begin{tabular}{rl}
   \LaTeX & \attachfile{LinearRegressionPrimer.tex} \\
-  Python & \attachfile{linreg-01.py} \\
+  Python & \attachfile{linreg-01.py} \\ 
+  R & \attachfile{linreg-01.R} \\ 
+  Excel & \attachfile{linreg-01.xlsx} \\ 
 \end{tabular}
 
 
