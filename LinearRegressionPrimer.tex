@@ -30,6 +30,13 @@
 \definecolor{colComments}{rgb}{1,0,0}
 \definecolor{colString}{rgb}{0,0.5,0}
 
+\makeatletter
+\lstdefinestyle{ausgabe}{
+  basicstyle=\ttfamily,%
+  backgroundcolor=\color{lightgray}%
+}
+\makeatother
+\lstnewenvironment{ausgabe}{\lstset{style=ausgabe}}{} 
 
 
 \lstset{%
@@ -202,7 +209,9 @@ Wenn wir den Zusammenhang dieser Punkte mittels Gerade (also \enquote{linear}) m
 \captionof{figure}{Grafische Erläuterung}\label{fig:grafisch}
 \end{center}
 
-$b$ ist dabei der Achsenabschnitt, also der Punkt $(0,b)$, an dem die X-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. ($\epsilon_i$ steht für die Fehler, den wir bei der Modellierung machen, darauf kommen wir später noch zu sprechen). 
+\(b\) ist dabei der Achsenabschnitt, also der Punkt \((0,b)\), an dem die Y-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden, also das Verhältnis von $\Delta y$ und $\Delta x$. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. 
+
+\(\epsilon_i\) steht für die Fehler, den wir bei der Modellierung machen, darauf kommen wir später noch zu sprechen. 
 
 Abbildung \ref{fig:grafisch} beschreibt diesen Zusammenhang grafisch: der Achsenabschnitt ist der Schnittpunkt der Geraden mit der Y-Achse, der Anstieg das Verhältnis von \(\Delta y\) zu \(\Delta x\).
 
@@ -343,28 +352,27 @@ Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Ger
 
 Wenn wir beide Grafiken betrachten, so ist schnell sichtbar, dass die Regressionsgerade im linken Bild deutlich schlechter ist als die Regressionsgerade im rechten Bild: die Summe der Abstände zwischen den wahren, roten, Punkten und den durch die Gerade geschätzten Punkten ist viel größer.
 
-
-Aus dieser Tatsache lässt sich ein sehr wichtiger Schluss ziehen: wenn wir diese Summe der Abstände minimieren könnten, würden wir die optimale Gerade erhalten. Als Gleichung:
+Aus dieser Tatsache lässt sich ein sehr wichtiger Schluss ziehen: wenn wir diese Summe der Abstände minimieren könnten, würden wir die optimale Gerade erhalten. In Gleichungsform können wir schreiben:
 
 \begin{equation}
-S = \sm y_i - \hat{y}_i
-\end{equation}\label{eq:abstaende}
+S = \sm y_i - \hat{y}_i\label{eq:summedifferenzen}
+\end{equation}
 
 In Worten: S ist die Summe aller Differenzen von wahrem und geschätzten $y$-Wert.
 
 Es hat sich als mathematisch sinnvoll herausgestellt, nicht einfach die Summe der Abstände zu minimieren, sondern die Summe der \textit{quadrierten} Abstände. Es lässt sich nicht nur leicht damit rechnen, der Kleinste-Quadrate-Schätzer ist auch -- sofern die  Annahmen des klassischen linearen Regressionsmodells nicht verletzt sind -- BLUE (\enquote{Best Linear Unbiased Estimator}). Dazu später mehr\ldots
 
-Aus Gleichung \ref{eq:abstaende} wird jetzt -- da wir ja die Quadratsumme minimieren wollen -- die folgende Gleichung:
+Aus Gleichung \ref{eq:summedifferenzen} wird jetzt -- da wir ja die Quadratsumme minimieren wollen -- die folgende Gleichung:
 
 \begin{equation}
-QS = \left(\sm y_i - \hat{y}_i\right)^2
-\end{equation}\label{eq:qabstaende}
+QS = \left(\sm y_i - \hat{y}_i\right)^2\label{eq:qabstaende}
+\end{equation}
 
 Diese Quadratsumme der Abweichungen ist nur abhängig von den Parametern \(a\) und \(b\) der Regressionsgleichung, daher können wir schreiben:
 
 \begin{equation}
 QS(a,b) = \left(\sm y_i - \hat{y}_i\right)^2
-\end{equation}\label{eq:qabstaende2}
+\end{equation}%\label{eq:qabstaendea}
 
 
 %Die Vorgehensweise bei der linearen Regression veranschaulicht folgende Grafik. Gegeben sind Wertepaare $x_i,y_i$, als schwarze Punkte eingezeichnet. Grün sind die Werte $(\hat{x},\hat{y})$ die durch die lineare Regressionsfunktion errechnet werden. Die roten Linien symbolisieren die Abweichungen\footnote{Es ist egal, ob man $y_i-\hat{y}_i$ oder $\hat{y}_i-y_i$ schreibt, durch die Quadrierung heben sich eventuelle negative Vorzeichen auf.}  $e_i=y_i-\hat{y}_i$ dieser durch die Gleichung bestimmten Punkte von den wahren Punkten. Aufgabe bei der Bestimmung der Parameter ist es nun, $a$ und $b$ so zu wählen, dass die Summe QS der quadrierten Abweichungen -- also $\sum_{i=1}^n (y_i-\hat{y}_i)^2$ -- minimal wird. 
@@ -640,8 +648,37 @@ Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um
 
 \lstinputlisting[language=Python,morekeywords={linregress}]{linreg-01.py}
 
+
+\begin{ausgabe}
+Slope 0.8
+Intercept 0.5999999999999996
+R_value 0.8
+P_value 0.10408803866182778
+Std_error 0.3464101615137754
+\end{ausgabe}
+
 \subsection{R}
 
+\lstinputlisting[language=R,morekeywords={lm}]{linreg-01.R}
+
+
+\begin{ausgabe}
+Call:
+lm(formula = x ~ y)
+
+Residuals:
+   1    2    3    4    5 
+-0.4 -1.0  0.8 -0.6  1.2 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   0.6000     1.1489   0.522    0.638
+y             0.8000     0.3464   2.309    0.104
+
+Residual standard error: 1.095 on 3 degrees of freedom
+Multiple R-squared:   0.64,     Adjusted R-squared:   0.52 
+F-statistic: 5.333 on 1 and 3 DF,  p-value: 0.1041
+\end{ausgabe}
 
 \subsection{Microsoft Excel}
 
