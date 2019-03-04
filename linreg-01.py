@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+import seaborn as sns
+sns.set(rc={'figure.figsize':(11.7,8.27)})
 
 x = [1, 2, 3, 4, 5, 6]
 y = [50, 40, 45, 20, 25, 15]
@@ -42,3 +44,5 @@ print(df, '\n\nSlope: ', slope, '\nIntersect: ', intersect)
 
 # graphics
 plt.scatter(x,y)
+
+sns.regplot(x=df.x, y=df.y, ci=False);
