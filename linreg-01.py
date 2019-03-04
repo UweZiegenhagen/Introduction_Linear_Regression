@@ -32,6 +32,9 @@ df['(x-mean_x)^2'] = df['x-mean_x']**2
 sum_xmeanxymeany = df['(x-mean_x)(y-mean_y)'].sum()
 sum_xminusxsq = df['(x-mean_x)^2'].sum()
 
+print(sum_xmeanxymeany, sum_xminusxsq)
+
+
 slope = sum_xmeanxymeany / sum_xminusxsq
 intersect = mean_y - slope * mean_x
 

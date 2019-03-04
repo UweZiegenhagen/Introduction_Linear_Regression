@@ -133,17 +133,17 @@ Allgemein wird eine metrische Variable $Y$ betrachtet, die von ein oder mehreren
 
 \section{Einfache lineare Regression}
 
-Im folgenden nutzen wir die Werte aus Tabelle \ref{tab:werte}, um an ihnen die einfache lineare Regression zu erklären.
+Im folgenden nutzen wir die Werte aus Tabelle \ref{tab:werte}, um an ihnen die einfache lineare Regression zu erklären. Die Zahlen könnten beispielsweise die verkaufte Menge Cocktails (\(Y\)) in Abhängigkeit vom Verkaufspreis (\(X\)) sein, die Zahlen wurden so gewählt, dass man gut mit ihnen rechnen kann. 
 
 \begin{center}
 \begin{tabular}{cc} \toprule[2pt]
 $X$-Wert & $Y$-Wert \\ \midrule
-        1 &1\\
-        2 &3\\
-        3 &2\\
-        4 &5\\
-        5 &4\\ 
-        6 & 5 \\ \bottomrule[2pt]
+        1 &50\\
+        2 &40\\
+        3 &45\\
+        4 &20\\
+        5 &25\\ 
+        6 & 15 \\ \bottomrule[2pt]
 \end{tabular}
 \end{center}
 \captionof{table}{Tabelle mit Wertepaaren}\label{tab:werte}\vspace*{1em}
@@ -539,26 +539,26 @@ Wie lassen sich die beiden Parameter interpretieren? \(b\), die Steigung, gibt d
 \begin{tabular}{r|cccccc} \toprule
 Spalte & 1 & 2 & 3 & 4 & 5 & 6 \\
 & $x$	&	$y$	&	$x-\bar{x}$	&	$y-\bar{y}$	&	$(x-\bar{x})(y-\bar{y})$	&	$(x-\bar{x})^2$	\\ \midrule
-1 & 1	&  1& -2.5	&	-2.3333	&	5.8333	&6.25		\\
-2 & 2	&	3	&	-1.5	&	-0.3333	&	0.5	&	2.25	\\
-3 & 3	&	2	&	-0.5	&	-1.3333	&	0.6666	&	0.25	\\
-4 & 4	&	5	&	0.5	&	1.6666	&0.83333 	&	2.25	\\
-5 & 5	&	4	&	1.5	&	0.6666	&1	&	2.25	\\  
-6 & 6	&	5	&	2.5	&	1.6666	&	4.166666	&	6.25	\\  
+& 1 &  50 &      -2.5 &      17.5 &                -43.75 &          6.25 \\
+& 2 &  40 &      -1.5 &       7.5 &                -11.25 &          2.25 \\
+& 3 &  45 &      -0.5 &      12.5 &                 -6.25 &          0.25 \\
+& 4 &  20 &       0.5 &     -12.5 &                 -6.25 &          0.25 \\
+& 5 &  25 &       1.5 &      -7.5 &                -11.25 &          2.25 \\
+& 6 &  15 &       2.5 &     -17.5 &                -43.75 &          6.25 \\
 \midrule
-$\sum$ & 21 & 20 & & & 13 & 17.5 \\ \bottomrule
+$\sum$ & 21 & 195 & & & -122.5 & 17.5 \\ \bottomrule
 \end{tabular}
 \end{center}
 
-Mit Hilfe der Werte aus der Tabelle lassen sich \(a\) und \(b\) einfach bestimmen. Hinweis: \(\bar x = 21/6 = 3.5\), \(\bar y = 20/6 = 3.333\)
+Mit Hilfe der Werte aus der Tabelle lassen sich \(a\) und \(b\) einfach bestimmen. Hinweis: \(\bar x = 21/6 = 3.5\), \(\bar y = 195/6 = 32.5 \)
 
 \[ a = \frac{\frac{\sum_{i=1}^n \left(x_i-\bar x \right)\left(y_i-\bar y \right)}{6}}{ 
-\frac{\sum_{i=1}^6 \left( x_i - \bar x \right)^2}{6}} = \frac{\sum_{i=1}^n\left(x_i-\bar x \right)\left(y_i-\bar y \right)}{\sum_{i=1}^n \left(x_i-\bar x \right)^2}  = \frac{13}{17.5} = 0.742857143\]
+\frac{\sum_{i=1}^6 \left( x_i - \bar x \right)^2}{6}} = \frac{\sum_{i=1}^n\left(x_i-\bar x \right)\left(y_i-\bar y \right)}{\sum_{i=1}^n \left(x_i-\bar x \right)^2}  = \frac{-122.5}{17.5} = -7 \]
 
 Hinweis zu dieser Rechnung: Brüche werden dividiert, indem man mit dem Kehrwert multipliziert: \( \frac{\nicefrac{1}{6}}{\nicefrac{1}{6}}   = \nicefrac{1}{6} \cdot \nicefrac{6}{1}  = 1 \). Für die Berechnung von \(a\) braucht man die Anzahl der Beobachtungen also nicht mehr.
 
-\[ b = \bar y - a\cdot \bar x = 3,333333333
- - 0.742857143 \cdot 3.5 = 0.733333333
+\[ b = \bar y - a\cdot \bar x = 32.5
+ - (-7) \cdot 3.5 = 57.0
  \]
 
 Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Regressionsgerade zeichnen:\vspace*{-11mm}
