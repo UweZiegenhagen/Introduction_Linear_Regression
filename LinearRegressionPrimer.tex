@@ -754,9 +754,23 @@ Zu beachten ist, dass \(R^2\) -- wie \(r\) -- nur eine Aussage über den \textit
 
 \subsection{Schultaschenrechner}
 
-Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um anhand von übergebenen Wertepaaren die Parameter $a$ und $b$ schnell zu bestimmen. Im Folgenden zeigen wir anhand eines Casio Schultaschenrechners vom Typ , wie es funktioniert. \marginpar{TODO!}
+Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um anhand von übergebenen Wertepaaren die Parameter $a$ und $b$ schnell zu bestimmen. Im Folgenden zeigen wir anhand eines Casio Schultaschenrechners vom Typ Casio fx-991DE X CLASSWIZ, wie es funktioniert. 
 
-
+\begin{enumerate}
+	\item Über den \enquote{Menu}-Button wechselt man in das Statistik-Menü und wählt Punkt 2 für das Modell \texttt{y = x + bx}
+	\item Es erscheint das Tabellenblatt für die Eingabe der $x$- und $y$-Werte, hier gibt man jetzt alle 12 Werte ein. Mit \enquote{=} wird ein Wert bestätigt, mit den Pfeiltasten wechselt man zwischen den Zellen.
+	\item Nach der Eingabe aller Werte drückt man die \enquote{OPTN}-Taste und gelangt in ein Menü.
+	\item Mit \enquote{4} kommt man in das \enquote{Regression}-Untermenü, hier zeigt der Rechner dann an:
+	
+	\begin{itemize}
+		\item das Regressionsmodell \texttt{y = a + bx}
+		\item den Wert von a: \texttt{a=57}
+		\item den Wert von b: \texttt{b=-7}
+		\item sowie den Korrelationskoeffizienten \(r\): \texttt{r=-0.909123767}
+		\end{itemize}
+	
+	\item Drückt man wiederholt \texttt{OPTN} und dann die \enquote{3}, so gelangt man in das Menü für die Berechnung der Variablen. Hier zeigt der Rechner die verschiedenen Teilergebnisse wie \(\bar{x}\), \(\sum{x}\), \(\sum{x^2}\), etc.
+	\end{enumerate}
 
 \section{Code-Beispiele}
 
@@ -767,11 +781,22 @@ Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um
 
 
 \begin{ausgabe}
-Slope 0.8
-Intercept 0.5999999999999996
-R_value 0.8
-P_value 0.10408803866182778
-Std_error 0.3464101615137754
+Slope -6.999999999999999
+Intercept 57.0
+R_value -0.909123767204656
+P_value 0.012012484314940097
+Std_error 1.6035674514745457
+-122.5 17.5
+   x   y  x-mean_x  y-mean_y  (x-mean_x)(y-mean_y)  (x-mean_x)^2
+0  1  50      -2.5      17.5                -43.75          6.25
+1  2  40      -1.5       7.5                -11.25          2.25
+2  3  45      -0.5      12.5                 -6.25          0.25
+3  4  20       0.5     -12.5                 -6.25          0.25
+4  5  25       1.5      -7.5                -11.25          2.25
+5  6  15       2.5     -17.5                -43.75          6.25 
+
+Slope:  -7.0 
+Intersect:  57.0
 \end{ausgabe}
 
 \subsection{R}
@@ -781,20 +806,22 @@ Std_error 0.3464101615137754
 
 \begin{ausgabe}
 Call:
-lm(formula = x ~ y)
+lm(formula = y ~ x)
 
 Residuals:
-   1    2    3    4    5 
--0.4 -1.0  0.8 -0.6  1.2 
+         1          2          3          4          5          6 
+ 9.974e-15 -3.000e+00  9.000e+00 -9.000e+00  3.000e+00  5.112e-15 
 
 Coefficients:
-            Estimate Std. Error t value Pr(>|t|)
-(Intercept)   0.6000     1.1489   0.522    0.638
-y             0.8000     0.3464   2.309    0.104
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   57.000      6.245   9.127 0.000799 ***
+x             -7.000      1.604  -4.365 0.012012 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.095 on 3 degrees of freedom
-Multiple R-squared:   0.64,     Adjusted R-squared:   0.52 
-F-statistic: 5.333 on 1 and 3 DF,  p-value: 0.1041
+Residual standard error: 6.708 on 4 degrees of freedom
+Multiple R-squared:  0.8265,	Adjusted R-squared:  0.7831 
+F-statistic: 19.06 on 1 and 4 DF,  p-value: 0.01201
 \end{ausgabe}
 
 \subsection{Microsoft Excel}
