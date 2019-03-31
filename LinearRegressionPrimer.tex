@@ -10,6 +10,7 @@
 \usepackage{fourier}
 \usepackage{microtype}
 \usepackage{tikz}
+\usepackage{pgfplots,siunitx}    
 \usepackage[]{mdframed}
 
 \definecolor{mygray}{rgb}{0.9,0.9,0.9}
@@ -118,7 +119,7 @@
 \item[v1.0] 16.03.2009, erste Version hochgeladen
 \item[v2.0] 02.03.2013, einen Vorzeichenfehler beseitigt, diverse Gleichungen und Erläuterungen zum besseren Verständnis hinzugefügt.
 \item [v3.0] auf Github gewechselt, Metapost gegen TikZ getauscht, einige Erläuterungen verbessert, \LaTeX\ Code aufgeräumt
-\item [v3.1] Erweiterung um multiple Regression, Quellcodes, Tests, etc. (DRAFT) 
+\item [v3.1] Neues Zahlenbeispiel (noch nicht überall ausgetauscht), Erweiterung um multiple Regression, Quellcodes, Tests, etc. (DRAFT) 
 \end{description}
 
 \section{Einführung}
@@ -133,7 +134,7 @@ Allgemein wird eine metrische Variable $Y$ betrachtet, die von ein oder mehreren
 
 \section{Einfache lineare Regression}
 
-Im folgenden nutzen wir die Werte aus Tabelle \ref{tab:werte}, um an ihnen die einfache lineare Regression zu erklären. Die Zahlen könnten beispielsweise die verkaufte Menge Cocktails (\(Y\)) in Abhängigkeit vom Verkaufspreis (\(X\)) sein, die Zahlen wurden so gewählt, dass man gut mit ihnen rechnen kann. 
+Im folgenden nutzen wir die Werte aus Tabelle \ref{tab:werte}, um an ihnen die einfache lineare Regression zu erklären. Die Zahlen könnten beispielsweise die verkaufte Menge Cocktails (\(Y\)) in Abhängigkeit vom Verkaufspreis (\(X\)) sein. Die Zahlen wurden so gewählt, dass man gut mit ihnen rechnen kann. 
 
 \begin{center}
 \begin{tabular}{cc} \toprule[2pt]
@@ -148,27 +149,26 @@ $X$-Wert & $Y$-Wert \\ \midrule
 \end{center}
 \captionof{table}{Tabelle mit Wertepaaren}\label{tab:werte}\vspace*{1em}
 
-Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot}) wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ ebenfalls steigen.
+Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot}) wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ sinken.
 
 \begin{center}
-\vspace*{1em}\begin{tikzpicture}[scale=1.0,
-    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+\vspace*{1em}\begin{tikzpicture}[xscale=1,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
 ]
 
-\draw[help lines,yellow,thin] (0,0) grid (9,9);
+%\draw[help lines,yellow,thin] (0,0) grid (9,60);
 
-\draw [->,thick] (0,0) -- (9,0);
-\draw [->,thick] (0,0) -- (0,9);
+\draw [->,thick] (0,0) -- (8,0);
+\draw [->,thick] (0,0) -- (0,70);
 
-\node  [punkt] (A) at (1,1){};
-\node  [punkt] (B) at (2,3){};
-\node  [punkt] (C) at (3,2){};
-\node  [punkt] (D) at (4,5){};
-\node  [punkt] (E) at (5,4){};
-\node  [punkt] (F) at (6,5){};
+\node  [punkt] (A) at (1,50){};
+\node  [punkt] (B) at (2,40){};
+\node  [punkt] (C) at (3,45){};
+\node  [punkt] (D) at (4,20){};
+\node  [punkt] (E) at (5,25){};
+\node  [punkt] (F) at (6,15){};
 
-\node  [below] (X) at (4.5,-0.5){X};
-\node  [left] (Y) at (-0.5,4.5){Y};
+\node  [below] (X) at (3.5,-4){X};
+\node  [left] (Y) at (-1,30){Y};
 
 \node  [below] (x1) at (1,0){1};
 \node  [below] (x2) at (2,0){2};
@@ -177,18 +177,13 @@ Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot
 \node  [below] (x5) at (5,0){5};
 \node  [below] (x6) at (6,0){6};
 \node  [below] (x7) at (7,0){7};
-\node  [below] (x8) at (8,0){8};
-\node  [below] (x9) at (9,0){9};
 
-\node  [left] (y1) at (0,1){1};
-\node  [left] (y2) at (0,2){2};
-\node  [left] (y3) at (0,3){3};
-\node  [left] (y4) at (0,4){4};
-\node  [left] (y5) at (0,5){5};
-\node  [left] (y6) at (0,6){6};
-\node  [left] (y7) at (0,7){7};
-\node  [left] (y8) at (0,8){8};
-\node  [left] (y9) at (0,9){9};
+\node  [left] (y1) at (0,10){10};
+\node  [left] (y2) at (0,20){20};
+\node  [left] (y3) at (0,30){30};
+\node  [left] (y4) at (0,40){40};
+\node  [left] (y5) at (0,50){50};
+\node  [left] (y6) at (0,60){60};
 
 %\draw[blue, very thick](0,0.8)--(5,4.6);
 %\node[punkt] (A) at (9,1){};
@@ -231,61 +226,90 @@ Wenn wir den Zusammenhang dieser Punkte mittels Gerade (also \enquote{linear}) m
 
 Abbildung \ref{fig:grafisch} beschreibt diesen Zusammenhang grafisch: der Achsenabschnitt ist der Schnittpunkt der Geraden mit der Y-Achse, der Anstieg das Verhältnis von \(\Delta y\) zu \(\Delta x\).
 
-Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für beliebig gewählte Regressionsgeraden. Im linken Plot erkennt man sehr deutlich, dass die Gerade nicht zu unseren Punkten passt, sie zeigt in die falsche Richtung und unterstellt damit, dass mit steigendem $X$ die Werte für $Y$ sinken. Im rechten Plot stimmt die Richtung, die Gerade sieht schon \enquote{recht gut} aus. 
+Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für beliebig gewählte Regressionsgeraden. Im linken Plot erkennt man, dass die Gerade schon recht gut zu unseren Punkten passt. Im rechten Plot stimmt die Richtung nicht, die Gerade impliziert nämlich dass mit steigendem $X$ die Werte von $Y$ ebenfalls steigen.
 
-\begin{tikzpicture}[scale=1,
-    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+\begin{tikzpicture}[xscale=0.8,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
 ]
 
-\draw[help lines,yellow,thin] (0,0) grid (7,6);
+%\draw[help lines,yellow,thin] (0,0) grid (9,60);
 
-\draw [->,thick] (0,0) -- (7,0);
-\draw [->,thick] (0,0) -- (0,6);
+\draw [->,thick] (0,0) -- (8,0);
+\draw [->,thick] (0,0) -- (0,70);
 
-\node  [punkt] (A) at (1,1){};
-\node  [punkt] (B) at (2,3){};
-\node  [punkt] (C) at (3,2){};
-\node  [punkt] (D) at (4,5){};
-\node  [punkt] (E) at (5,4){};
+\node  [punkt] (A) at (1,50){};
+\node  [punkt] (B) at (2,40){};
+\node  [punkt] (C) at (3,45){};
+\node  [punkt] (D) at (4,20){};
+\node  [punkt] (E) at (5,25){};
+\node  [punkt] (F) at (6,15){};
 
-\node  [below] (X) at (7,0){X};
-\node  [left] (Y) at (0,6){Y};
-\node  [below] (suba) at (3.5,0){(a)};
+\node  [below] (X) at (3.5,-4){X};
+\node  [left] (Y) at (-1,30){Y};
 
-\draw[blue, very thick](0,6)--(6,2);
+\node  [below] (x1) at (1,0){1};
+\node  [below] (x2) at (2,0){2};
+\node  [below] (x3) at (3,0){3};
+\node  [below] (x4) at (4,0){4};
+\node  [below] (x5) at (5,0){5};
+\node  [below] (x6) at (6,0){6};
+\node  [below] (x7) at (7,0){7};
+
+\node  [left] (y1) at (0,10){10};
+\node  [left] (y2) at (0,20){20};
+\node  [left] (y3) at (0,30){30};
+\node  [left] (y4) at (0,40){40};
+\node  [left] (y5) at (0,50){50};
+\node  [left] (y6) at (0,60){60};
+
+
+
+
+\draw[blue, very thick](1,60)--(6,5);
 %\node[punkt] (A) at (9,1){};
 %\node[draw] (B) at (8,4){B};
 %\draw (A) -- (B);
-\end{tikzpicture}\begin{tikzpicture}[scale=1,
-    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+\end{tikzpicture}\begin{tikzpicture}[xscale=0.8,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
 ]
 
-\draw[help lines,yellow,thin] (0,0) grid (7,6);
+%\draw[help lines,yellow,thin] (0,0) grid (9,60);
 
-\draw [->,thick] (0,0) -- (7,0);
-\draw [->,thick] (0,0) -- (0,6);
+\draw [->,thick] (0,0) -- (8,0);
+\draw [->,thick] (0,0) -- (0,70);
 
-\node  [punkt] (A) at (1,1){};
-\node  [punkt] (B) at (2,3){};
-\node  [punkt] (C) at (3,2){};
-\node  [punkt] (D) at (4,5){};
-\node  [punkt] (E) at (5,4){};
+\node  [punkt] (A) at (1,50){};
+\node  [punkt] (B) at (2,40){};
+\node  [punkt] (C) at (3,45){};
+\node  [punkt] (D) at (4,20){};
+\node  [punkt] (E) at (5,25){};
+\node  [punkt] (F) at (6,15){};
 
-\node  [below] (X) at (7,0){X};
-\node  [left] (Y) at (0,6){Y};
+\node  [below] (X) at (3.5,-4){X};
+\node  [left] (Y) at (-1,30){Y};
 
-\node  [below] (subb) at (3.5,0){(b)};
+\node  [below] (x1) at (1,0){1};
+\node  [below] (x2) at (2,0){2};
+\node  [below] (x3) at (3,0){3};
+\node  [below] (x4) at (4,0){4};
+\node  [below] (x5) at (5,0){5};
+\node  [below] (x6) at (6,0){6};
+\node  [below] (x7) at (7,0){7};
 
-\draw[blue, very thick](0,1)--(6,5);
-%\node[punkt] (A) at (9,1){};
-%\node[draw] (B) at (8,4){B};
-%\draw (A) -- (B);
+\node  [left] (y1) at (0,10){10};
+\node  [left] (y2) at (0,20){20};
+\node  [left] (y3) at (0,30){30};
+\node  [left] (y4) at (0,40){40};
+\node  [left] (y5) at (0,50){50};
+\node  [left] (y6) at (0,60){60};
+
+
+\draw[blue, very thick](1,10)--(6,60);
+
 \end{tikzpicture}
 \captionof{figure}{Zwei Regressionsgeraden}\label{fig:geraden}
 
 Da aber eine Einschätzung wie \enquote{recht gut} nicht wirklich mathematisch exakt ist, müssen wir diesen Punkt ein wenig genauer betrachten.
 
-Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Geraden die Punkte in grün markiert, die die Regressionsgleichung für den jeweiligen Wert von $X$ vorhersagt, außerdem wurden die jeweiligen Abstände zwischen dem wahren $Y$-Wert und dem geschätzten $Y$-Wert (den wir ab jetzt $\hat Y$ nennen) markiert. 
+Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Geraden die Punkte in grün markiert, die eine Regressionsgleichung für den jeweiligen Wert von $X$ vorhersagt, außerdem wurden die jeweiligen Abstände zwischen dem wahren $Y$-Wert und dem geschätzten $Y$-Wert (den wir ab jetzt $\hat Y$ nennen) markiert. 
 
 \begin{tikzpicture}[scale=1,
     pred/.style={circle, minimum size = 0.04cm,blue,fill=green},
@@ -561,27 +585,34 @@ Hinweis zu dieser Rechnung: Brüche werden dividiert, indem man mit dem Kehrwert
  - (-7) \cdot 3.5 = 57.0
  \]
 
+Unsere Regressionsgleichung lautet also:
+
+\[
+y = -7 \cdot x + 57
+\]
+
+
 Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Regressionsgerade zeichnen:\vspace*{-11mm}
 
+
 \begin{center}
-\vspace*{1em}\begin{tikzpicture}[scale=1.0,
-    punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
+\vspace*{1em}\begin{tikzpicture}[xscale=1,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
 ]
 
-\draw[help lines,yellow,thin] (0,0) grid (9,9);
+%\draw[help lines,yellow,thin] (0,0) grid (9,60);
 
-\draw [->,thick] (0,0) -- (9,0);
-\draw [->,thick] (0,0) -- (0,9);
+\draw [->,thick] (0,0) -- (8,0);
+\draw [->,thick] (0,0) -- (0,70);
 
-\node  [punkt] (A) at (1,1){};
-\node  [punkt] (B) at (2,3){};
-\node  [punkt] (C) at (3,2){};
-\node  [punkt] (D) at (4,5){};
-\node  [punkt] (E) at (5,4){};
-\node  [punkt] (F) at (6,5){};
+\node  [punkt] (A) at (1,50){};
+\node  [punkt] (B) at (2,40){};
+\node  [punkt] (C) at (3,45){};
+\node  [punkt] (D) at (4,20){};
+\node  [punkt] (E) at (5,25){};
+\node  [punkt] (F) at (6,15){};
 
-\node  [below] (X) at (4.5,-0.5){X};
-\node  [left] (Y) at (-0.5,4.5){Y};
+\node  [below] (X) at (3.5,-4){X};
+\node  [left] (Y) at (-1,30){Y};
 
 \node  [below] (x1) at (1,0){1};
 \node  [below] (x2) at (2,0){2};
@@ -590,23 +621,15 @@ Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Reg
 \node  [below] (x5) at (5,0){5};
 \node  [below] (x6) at (6,0){6};
 \node  [below] (x7) at (7,0){7};
-\node  [below] (x8) at (8,0){8};
-\node  [below] (x9) at (9,0){9};
 
-\node  [left] (y1) at (0,1){1};
-\node  [left] (y2) at (0,2){2};
-\node  [left] (y3) at (0,3){3};
-\node  [left] (y4) at (0,4){4};
-\node  [left] (y5) at (0,5){5};
-\node  [left] (y6) at (0,6){6};
-\node  [left] (y7) at (0,7){7};
-\node  [left] (y8) at (0,8){8};
-\node  [left] (y9) at (0,9){9};
+\node  [left] (y1) at (0,10){10};
+\node  [left] (y2) at (0,20){20};
+\node  [left] (y3) at (0,30){30};
+\node  [left] (y4) at (0,40){40};
+\node  [left] (y5) at (0,50){50};
+\node  [left] (y6) at (0,60){60};
 
-\draw[blue, very thick](0,0.7333)--(7,5.9333);
-%\node[punkt] (A) at (9,1){};
-%\node[draw] (B) at (8,4){B};
-%\draw (A) -- (B);
+\draw[blue, very thick](0.5,53.5)--(7,8);
 \end{tikzpicture}
 \captionof{figure}{Scatterplot mit Regressionsgerade}\label{fig:final}\vspace*{1em}
 \end{center}
