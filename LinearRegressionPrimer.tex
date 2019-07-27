@@ -149,7 +149,7 @@ $X$-Wert & $Y$-Wert \\ \midrule
 \end{center}
 \captionof{table}{Tabelle mit Wertepaaren}\label{tab:werte}\vspace*{1em}
 
-Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot}) wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ sinken.
+Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot}) wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ sinken. 
 
 \begin{center}
 \vspace*{1em}\begin{tikzpicture}[xscale=1,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
@@ -218,15 +218,15 @@ Wenn wir den Zusammenhang dieser Punkte mittels Gerade (also \enquote{linear}) m
 \node  [below] (x) at (3.5,2){\(\Delta x\)};
 \end{tikzpicture}
 \captionof{figure}{Grafische Erläuterung}\label{fig:grafisch}
-\end{center}
+\end{center} 
 
 \(b\) ist dabei der Achsenabschnitt, also der Punkt \((0,b)\), an dem die Y-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden, also das Verhältnis von $\Delta y$ und $\Delta x$. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. 
 
 \(\epsilon_i\) steht für die Fehler, den wir bei der Modellierung machen, darauf kommen wir später noch zu sprechen. 
 
-Abbildung \ref{fig:grafisch} beschreibt diesen Zusammenhang grafisch: der Achsenabschnitt ist der Schnittpunkt der Geraden mit der Y-Achse, der Anstieg das Verhältnis von \(\Delta y\) zu \(\Delta x\).
+Abbildung \ref{fig:grafisch} beschreibt diesen Zusammenhang grafisch: der Achsenabschnitt $b$ ist der Schnittpunkt der Geraden mit der Y-Achse, der Anstieg $a$ das Verhältnis von \(\Delta y\) zu \(\Delta x\).
 
-Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für beliebig gewählte Regressionsgeraden. Im linken Plot erkennt man, dass die Gerade schon recht gut zu unseren Punkten passt. Im rechten Plot stimmt die Richtung nicht, die Gerade impliziert nämlich dass mit steigendem $X$ die Werte von $Y$ ebenfalls steigen.
+Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für beliebig gewählte Regressionsgeraden. Im linken Plot erkennt man, dass die Gerade schon recht gut zu unseren Punkten passt. Im rechten Plot stimmt die Richtung überhaupt nicht, die Gerade impliziert nämlich dass mit steigendem $X$ die Werte von $Y$ ebenfalls steigen, also -- angewandt auf unser Beispiel -- bei höherem Preis mehr Cocktails verkauft werden.
 
 \begin{tikzpicture}[xscale=0.8,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
 ]
@@ -307,7 +307,7 @@ Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\
 \end{tikzpicture}
 \captionof{figure}{Zwei Regressionsgeraden}\label{fig:geraden}
 
-Da aber eine Einschätzung wie \enquote{recht gut} nicht wirklich mathematisch exakt ist, müssen wir diesen Punkt ein wenig genauer betrachten.
+Da aber eine Einschätzung wie \enquote{recht gut} nicht wirklich mathematisch exakt ist, werden wir diesen Punkt ein wenig genauer betrachten.
 
 Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Geraden die Punkte in grün markiert, die eine Regressionsgleichung für den jeweiligen Wert von $X$ vorhersagt, außerdem wurden die jeweiligen Abstände zwischen dem wahren $Y$-Wert und dem geschätzten $Y$-Wert (den wir ab jetzt $\hat Y$ nennen) markiert. 
 
