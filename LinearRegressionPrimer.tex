@@ -120,6 +120,7 @@
 \item[v2.0] 02.03.2013, einen Vorzeichenfehler beseitigt, diverse Gleichungen und Erläuterungen zum besseren Verständnis hinzugefügt.
 \item [v3.0] auf Github gewechselt, Metapost gegen TikZ getauscht, einige Erläuterungen verbessert, \LaTeX\ Code aufgeräumt
 \item [v3.1] Neues Zahlenbeispiel (noch nicht überall ausgetauscht), Erweiterung um multiple Regression, Quellcodes, Tests, etc. (DRAFT) 
+\item [v3.2] Zwei Fehler gefixt, danke an A.~Weber (DRAFT) 
 \end{description}
 
 \section{Einführung}
@@ -495,10 +496,10 @@ Durch Ausmultiplizieren und Vereinfachen ergibt sich:
      &= \sm \big( ax_i^2 - a\bar{x}x_i \big) + \sm x_i\bar{y} - \sm x_iy_i 
 \end{align}
 
-Jetzt addiert man \(\sm x_iy_i\) und subtrahiert \(\sm x_i\bar{y}\), um diese beiden Teile auf die andere Seite der Gleichung zu bekommen.
+Jetzt subtrahiert man \(\sm x_iy_i\) und addiert \(\sm x_i\bar{y}\), um diese beiden Teile auf die andere Seite der Gleichung zu bekommen. % add/sub ausgetauscht 2020-11-29
 
 \begin{equation}
-\sm (ax_i^2 -ax_i\bar{x}) = \sm x_iy_i - \sm x_i\bar{y} 
+\sm \left(ax_i^2 -ax_i\bar{x}\right) = \sm x_iy_i - \sm x_i\bar{y} 
 \end{equation}
 
 Da \(a\) konstant ist, können wir es vor die Klammer ziehen.
@@ -515,21 +516,29 @@ Jetzt teilen wir durch \(\sm (x_i^2 -x_i\bar{x})\)
 
 
 \begin{equation}
-a =  \dfrac{\sm x_iy_i - \bar{y} \sm x_i}{\sm (x_i^2 -x_i\bar{x})} 
+a =  \dfrac{\sm x_iy_i - \bar{y} \sm x_i}{\sm \big(x_i^2 -x_i\bar{x}\big)} 
 \end{equation}
 
 Aus der Definition des arithmetischen Mittels $\bar{x} = \dfrac{1}{n}\sum x_i$ folgt $\sm x_i= n\bar{x}$. Einsetzen ergibt 
 
 \begin{equation}
-a =  \dfrac{\sm x_iy_i - \bar{y} n \bar{x}}{ \sm \big( x_i^2 -  \sm x_i \bar{x} \big)}
+a =  \dfrac{\sm x_iy_i - \bar{y} n \bar{x}}{ \sm \big( x_i^2 -  x_i \bar{x} \big)}
 \end{equation}
 
 
-Jetzt zerlegen wir die Summe unter dem Bruchstrich in Einzelsummen und ziehen \(\bar{x}\) vor das zweite Summenzeichen (Zur Erinnerung: konstanter Term!)
+Jetzt zerlegen wir die Summe unter dem Bruchstrich in Einzelsummen
+
+\begin{equation}
+a =  \dfrac{\sm x_iy_i - \bar{y} n\bar{x}}{\sm x_i^2 - \sm x_i \bar{x}}
+\end{equation}
+
+und ziehen \(\bar{x}\) vor das zweite Summenzeichen, denn \(\bar{x}\) ist ja ein konstanter Term:
 
 \begin{equation}
 a =  \dfrac{\sm x_iy_i - \bar{y} n\bar{x}}{\sm x_i^2 - \bar{x} \sm x_i}
 \end{equation}
+
+
 
 Über Formeln zu Varianz und Kovarianz\footnote{Verschiebungssatz: \\ $\cov(X,Y) = \E \left((X - \E(X))(Y - \E(Y)\right)) =\E(X,Y)- \E(X)\E(Y)$ \\ $\var(X)=\E\left(\left(X-\E(X)\right)^2\right)=\E(X^2)-\left(\E(X)\right)^2$} erhalten wir
 
@@ -554,7 +563,13 @@ b=\bar{y} - a \bar{x}
 a =  \dfrac{\cov(x,y)}{\var(x)}
 \end{equation}
 
-Wie lassen sich die beiden Parameter interpretieren? \(b\), die Steigung, gibt den durchschnittlichen Betrag wider, um den sich \(y\) ändert, wenn \(x\) um eine Einheit verändert wird. \(a\) gibt den Betrag von \(y\) an, wenn \(x\) 0 ist. Je nachdem, welche Größen untersucht werden, kann ein \(x\) von 0 sinnvoll interpretiert werden oder nicht. Für eine Untersuchung des  Körpergewichts in Abhängigkeit von der Körpergröße spielt die Körpergröße \(x=0\) sicherlich keine Rolle\ldots    
+Wie lassen sich die beiden Parameter interpretieren? 
+
+\(b\), die Steigung, gibt den durchschnittlichen Betrag wieder, um den sich \(y\) ändert, wenn \(x\) um eine Einheit verändert wird. 
+
+\(a\) gibt den Betrag von \(y\) an, wenn \(x\) den Wert 0 hat. 
+
+Je nachdem, welche Größen untersucht werden, kann ein \(x\) von 0 sinnvoll interpretiert werden oder nicht. Für eine Untersuchung des  Körpergewichts in Abhängigkeit von der Körpergröße spielt die Körpergröße \(x=0\) sicherlich keine Rolle\ldots    
 
 \clearpage\section{Beispiel}
 
