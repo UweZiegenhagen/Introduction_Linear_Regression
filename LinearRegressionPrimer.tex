@@ -1,4 +1,4 @@
-\documentclass[ngerman, 12pt]{scrartcl}
+\documentclass[ngerman, 12pt,parskip=half]{scrartcl}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -10,8 +10,10 @@
 \usepackage{fourier}
 \usepackage{microtype}
 \usepackage{tikz}
-\usepackage{pgfplots,siunitx}    
-\usepackage[]{mdframed}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{subcaption}
+\usepackage{mdframed}
 
 \definecolor{mygray}{rgb}{0.9,0.9,0.9}
 
@@ -96,8 +98,6 @@
 
 \usepackage{amsmath,amstext}
 \usepackage{attachfile}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1em}
 
 \def\qs{\text{QS}(a,b)}
 \def\sm{\sum\limits_{i=1}^{n}}
@@ -128,14 +128,20 @@
 Aus der Wikipedia\footnote{\url{https://de.wikipedia.org/wiki/Lineare_Regression}, Abruf: 24.06.2018}: 
 
 \begin{quote}
-\enquote{Die lineare Regression, die einen Spezialfall des allgemeinen Konzepts der Regressionsanalyse darstellt, ist ein statistisches Verfahren, mit dem versucht wird, eine beobachtete abhängige Variable durch eine oder mehrere unabhängige Variablen zu erklären. Das Beiwort \enquote{linear} ergibt sich dadurch, dass die abhängige Variable eine Linearkombination der Regressionskoeffizienten darstellt (aber nicht notwendigerweise der unabhängigen Variablen). Der Begriff Regression bzw. Regression zur Mitte wurde vor allem durch den Statistiker Francis Galton geprägt. 
+\enquote{Die lineare Regression, die einen Spezialfall des allgemeinen Konzepts der Regressionsanalyse darstellt, ist ein statistisches Verfahren, mit dem versucht wird, eine beobachtete abhängige Variable durch eine oder mehrere unabhängige Variablen zu erklären. 
+Das Beiwort \enquote{linear} ergibt sich dadurch, dass die abhängige Variable eine Linearkombination der Regressionskoeffizienten darstellt (aber nicht notwendigerweise der unabhängigen Variablen).
+Der Begriff Regression bzw. Regression zur Mitte wurde vor allem durch den Statistiker Francis Galton geprägt. 
 }\end{quote}
 
-Allgemein wird eine metrische Variable $Y$ betrachtet, die von ein oder mehreren Variablen $X_i$ abhängt. $Y$ nennt man daher auch die \enquote{abhängige Variable} und die $X_i$ die \enquote{unabhängigen Variablen}.  Im eindimensionalen Fall -- wenn es nur eine $X$-Variable gibt -- spricht man von einer einfachen linearen Regression, in höheren Dimensionen von der multiplen Regression.
+Allgemein wird eine metrische Variable $Y$ betrachtet, die \textit{linear} von ein oder mehreren Variablen $X_i$ abhängt.
+$Y$ nennt man daher auch die \enquote{abhängige Variable} und die $X_i$ die \enquote{unabhängigen Variablen}.
+Im eindimensionalen Fall -- wenn es nur eine $X$-Variable gibt -- spricht man von einer einfachen linearen Regression, in höheren Dimensionen -- wenn es mehrere \(X_i\)-Variablen gibt --  von der multiplen linearen Regression.
 
 \section{Einfache lineare Regression}
 
-Im folgenden nutzen wir die Werte aus Tabelle \ref{tab:werte}, um an ihnen die einfache lineare Regression zu erklären. Die Zahlen könnten beispielsweise die verkaufte Menge Cocktails (\(Y\)) in Abhängigkeit vom Verkaufspreis (\(X\)) sein. Die Zahlen wurden so gewählt, dass man gut mit ihnen rechnen kann. 
+Im folgenden nutzen wir die Werte aus Tabelle \ref{tab:werte}, um an ihnen die einfache lineare Regression zu erklären.
+Die Zahlen könnten beispielsweise die verkaufte Menge Cocktails (\(Y\)) in Abhängigkeit vom Verkaufspreis (\(X\)) sein.
+Die Zahlen wurden so gewählt, dass man gut mit ihnen rechnen kann. 
 
 \begin{center}
 \begin{tabular}{cc} \toprule[2pt]
@@ -150,27 +156,21 @@ $X$-Wert & $Y$-Wert \\ \midrule
 \end{center}
 \captionof{table}{Tabelle mit Wertepaaren}\label{tab:werte}\vspace*{1em}
 
-Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot}) wie in Abbildung \ref{fig:scatter} dar, so erkennt man dass mit steigendem Wert von $X$ die Werte von $Y$ sinken. 
+Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot}) wie in Abbildung \ref{fig:scatter} dar, so erkennt man, dass mit steigendem Wert von $X$ die Werte von $Y$ sinken. 
 
 \begin{center}
-\vspace*{1em}\begin{tikzpicture}[xscale=1,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
-]
-
+\vspace*{1em}\begin{tikzpicture}[xscale=1,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red}]
 %\draw[help lines,yellow,thin] (0,0) grid (9,60);
-
 \draw [->,thick] (0,0) -- (8,0);
 \draw [->,thick] (0,0) -- (0,70);
-
 \node  [punkt] (A) at (1,50){};
 \node  [punkt] (B) at (2,40){};
 \node  [punkt] (C) at (3,45){};
 \node  [punkt] (D) at (4,20){};
 \node  [punkt] (E) at (5,25){};
 \node  [punkt] (F) at (6,15){};
-
 \node  [below] (X) at (3.5,-4){X};
 \node  [left] (Y) at (-1,30){Y};
-
 \node  [below] (x1) at (1,0){1};
 \node  [below] (x2) at (2,0){2};
 \node  [below] (x3) at (3,0){3};
@@ -178,14 +178,12 @@ Stellt man die Punkte in einem Streu-Diagramm (auf englisch \enquote{Scatterplot
 \node  [below] (x5) at (5,0){5};
 \node  [below] (x6) at (6,0){6};
 \node  [below] (x7) at (7,0){7};
-
 \node  [left] (y1) at (0,10){10};
 \node  [left] (y2) at (0,20){20};
 \node  [left] (y3) at (0,30){30};
 \node  [left] (y4) at (0,40){40};
 \node  [left] (y5) at (0,50){50};
 \node  [left] (y6) at (0,60){60};
-
 %\draw[blue, very thick](0,0.8)--(5,4.6);
 %\node[punkt] (A) at (9,1){};
 %\node[draw] (B) at (8,4){B};
@@ -217,36 +215,47 @@ Wenn wir den Zusammenhang dieser Punkte mittels Gerade (also \enquote{linear}) m
 \node  [left] (b) at (0,1){b};
 \node  [right] (y) at (5,2.75){\(\Delta y\)};
 \node  [below] (x) at (3.5,2){\(\Delta x\)};
+
+\node  [below] (x) at (5.5,1.5){\( a = \frac{\Delta y}{\Delta x}\)};
+
+
 \end{tikzpicture}
 \captionof{figure}{Grafische Erläuterung}\label{fig:grafisch}
 \end{center} 
 
-\(b\) ist dabei der Achsenabschnitt, also der Punkt \((0,b)\), an dem die Y-Achse geschnitten wird. $a$ hingegen ist der Parameter für die Steigung der Regressionsgeraden, also das Verhältnis von $\Delta y$ und $\Delta x$. $a$ und $b$ sind für unsere fünf Wertepaare zu bestimmen. 
+\begin{itemize}
 
-\(\epsilon_i\) steht für die Fehler, den wir bei der Modellierung machen, darauf kommen wir später noch zu sprechen. 
+\item \(b\) ist dabei der Achsenabschnitt, also der Punkt \((0,b)\), an dem die Y-Achse geschnitten wird. 
 
-Abbildung \ref{fig:grafisch} beschreibt diesen Zusammenhang grafisch: der Achsenabschnitt $b$ ist der Schnittpunkt der Geraden mit der Y-Achse, der Anstieg $a$ das Verhältnis von \(\Delta y\) zu \(\Delta x\).
+\item \(a\) hingegen ist der Parameter für die Steigung der Regressionsgeraden, also das Verhältnis von \(\Delta y\) und \(\Delta x\). \(a\) und \(b\) sind für unsere Wertepaare zu bestimmen. 
 
-Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für beliebig gewählte Regressionsgeraden. Im linken Plot erkennt man, dass die Gerade schon recht gut zu unseren Punkten passt. Im rechten Plot stimmt die Richtung überhaupt nicht, die Gerade impliziert nämlich dass mit steigendem $X$ die Werte von $Y$ ebenfalls steigen, also -- angewandt auf unser Beispiel -- bei höherem Preis mehr Cocktails verkauft werden.
+\item \(\epsilon_i\) steht für die Fehler, den wir bei der Modellierung machen, darauf kommen wir später noch zu sprechen. 
 
-\begin{tikzpicture}[xscale=0.8,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
-]
+\end{itemize}
 
-%\draw[help lines,yellow,thin] (0,0) grid (9,60);
 
+Abbildung \ref{fig:grafisch} auf Seite \pageref{fig:grafisch} beschreibt diesen Zusammenhang grafisch.
+
+Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\ref{fig:geraden} zeigt zwei Beispiele für beliebig gewählte Regressionsgeraden. 
+Im linken Teil erkennt man, dass die Gerade schon recht gut zu unseren Punkten passt. 
+
+Im rechten Teil stimmt die Richtung überhaupt nicht, die Gerade impliziert nämlich dass mit steigendem \(X\) die Werte von \(Y\) ebenfalls steigen, also -- angewandt auf unser Beispiel -- bei höherem Preis mehr Cocktails verkauft werden, was normalerweise\footnote{Siehe \url{https://de.wikipedia.org/wiki/Giffen-Paradoxon} für die Ausnahme \enquote{Giffen-Gut}} Quatsch ist.
+
+\begin{figure}[h]
+\centering
+\subcaptionbox{Mit negativem Anstieg \label{steigneg}}
+{
+\begin{tikzpicture}[xscale=0.7,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red}]
 \draw [->,thick] (0,0) -- (8,0);
 \draw [->,thick] (0,0) -- (0,70);
-
 \node  [punkt] (A) at (1,50){};
 \node  [punkt] (B) at (2,40){};
 \node  [punkt] (C) at (3,45){};
 \node  [punkt] (D) at (4,20){};
 \node  [punkt] (E) at (5,25){};
 \node  [punkt] (F) at (6,15){};
-
 \node  [below] (X) at (3.5,-4){X};
 \node  [left] (Y) at (-1,30){Y};
-
 \node  [below] (x1) at (1,0){1};
 \node  [below] (x2) at (2,0){2};
 \node  [below] (x3) at (3,0){3};
@@ -254,39 +263,27 @@ Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\
 \node  [below] (x5) at (5,0){5};
 \node  [below] (x6) at (6,0){6};
 \node  [below] (x7) at (7,0){7};
-
 \node  [left] (y1) at (0,10){10};
 \node  [left] (y2) at (0,20){20};
 \node  [left] (y3) at (0,30){30};
 \node  [left] (y4) at (0,40){40};
 \node  [left] (y5) at (0,50){50};
 \node  [left] (y6) at (0,60){60};
-
-
-
-
 \draw[blue, very thick](1,60)--(6,5);
-%\node[punkt] (A) at (9,1){};
-%\node[draw] (B) at (8,4){B};
-%\draw (A) -- (B);
-\end{tikzpicture}\begin{tikzpicture}[xscale=0.8,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
-]
-
-%\draw[help lines,yellow,thin] (0,0) grid (9,60);
-
+\end{tikzpicture}}
+\subcaptionbox{Mit positivem Anstieg\label{steigpos}}
+{
+\begin{tikzpicture}[xscale=0.7,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red}]
 \draw [->,thick] (0,0) -- (8,0);
 \draw [->,thick] (0,0) -- (0,70);
-
 \node  [punkt] (A) at (1,50){};
 \node  [punkt] (B) at (2,40){};
 \node  [punkt] (C) at (3,45){};
 \node  [punkt] (D) at (4,20){};
 \node  [punkt] (E) at (5,25){};
 \node  [punkt] (F) at (6,15){};
-
 \node  [below] (X) at (3.5,-4){X};
 \node  [left] (Y) at (-1,30){Y};
-
 \node  [below] (x1) at (1,0){1};
 \node  [below] (x2) at (2,0){2};
 \node  [below] (x3) at (3,0){3};
@@ -294,56 +291,43 @@ Wir können wir nun die Regressionsgerade durch die Punkte zeichnen? Abbildung~\
 \node  [below] (x5) at (5,0){5};
 \node  [below] (x6) at (6,0){6};
 \node  [below] (x7) at (7,0){7};
-
 \node  [left] (y1) at (0,10){10};
 \node  [left] (y2) at (0,20){20};
 \node  [left] (y3) at (0,30){30};
 \node  [left] (y4) at (0,40){40};
 \node  [left] (y5) at (0,50){50};
 \node  [left] (y6) at (0,60){60};
-
-
 \draw[blue, very thick](1,10)--(6,60);
+\end{tikzpicture}}
+\caption{Zwei Regressionsgeraden}\label{fig:geraden}
+\end{figure}
 
-\end{tikzpicture}
-\captionof{figure}{Zwei Regressionsgeraden}\label{fig:geraden}
 
-Da aber eine Einschätzung wie \enquote{recht gut} nicht wirklich mathematisch exakt ist, werden wir diesen Punkt ein wenig genauer betrachten.
+Da aber eine Einschätzung wie \enquote{recht gut} nicht mathematisch exakt ist, werden wir diesen Punkt ein wenig genauer betrachten.
 
-Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Geraden die Punkte in grün markiert, die eine Regressionsgleichung für den jeweiligen Wert von $X$ vorhersagt, außerdem wurden die jeweiligen Abstände zwischen dem wahren $Y$-Wert und dem geschätzten $Y$-Wert (den wir ab jetzt $\hat Y$ nennen) markiert. 
+Betrachten wir dazu Abbildung \ref{fig:geraden2}.
+Hier wurden auf der blauen Geraden die Punkte in grün markiert, die eine Regressionsgleichung für den jeweiligen Wert von \(X\) vorhersagt, außerdem wurden die jeweiligen Abstände zwischen dem wahren \(Y\)-Wert und dem geschätzten \(Y\)-Wert (den wir ab jetzt \(\hat Y\) nennen) markiert. 
 
 \begin{tikzpicture}[scale=1,
     pred/.style={circle, minimum size = 0.04cm,blue,fill=green},
-    punkt/.style={circle, minimum size = 0.04cm,blue,fill=red},
-]
-
-%\draw[help lines,yellow,thin] (0,0) grid (7,6);
-
+    punkt/.style={circle, minimum size = 0.04cm,blue,fill=red}]
 
 \draw [->,thick] (0,0) -- (7,0);
 \draw [->,thick] (0,0) -- (0,6);
-
 \draw[blue, very thick](0,6)--(6,2);
-
-
 \node  [punkt] (A) at (1,1){};
 \node  [punkt] (B) at (2,3){};
 \node  [punkt] (C) at (3,2){};
 \node  [punkt] (D) at (4,5){};
 \node  [punkt] (E) at (5,4){};
-
 \node  [pred] (Ap) at (1,5.3333){};
 \node  [pred] (Bp) at (2,4.6666){};
 \node  [pred] (Cp) at (3,4){};
 \node  [pred] (Dp) at (4,3.3333){};
 \node  [pred] (Ep) at (5,2.6666){};
-
 \node  [below] (X) at (7,0){X};
 \node  [left] (Y) at (0,6){Y};
 \node  [below] (suba) at (3.5,0){(a)};
-
-%\node[punkt] (A) at (9,1){};
-%\node[draw] (B) at (8,4){B};
 \draw[magenta] (A) -- (Ap);
 \draw[magenta] (B) -- (Bp);
 \draw[magenta] (C) -- (Cp);
@@ -351,49 +335,38 @@ Betrachten wir dazu Abbildung \ref{fig:geraden2}. Hier wurden auf der blauen Ger
 \draw[magenta] (E) -- (Ep);
 \end{tikzpicture}\begin{tikzpicture}[scale=1,
     punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
-    pred/.style={circle, minimum size = 0.05cm,blue,fill=green},
-]
-
-%\draw[help lines,yellow,thin] (0,0) grid (7,6);
+    pred/.style={circle, minimum size = 0.05cm,blue,fill=green}]
 
 \draw [->,thick] (0,0) -- (7,0);
 \draw [->,thick] (0,0) -- (0,6);
-
 \draw[blue, very thick](0,1)--(6,5);
-
 \node  [punkt] (A) at (1,1){};
 \node  [punkt] (B) at (2,3){};
 \node  [punkt] (C) at (3,2){};
 \node  [punkt] (D) at (4,5){};
 \node  [punkt] (E) at (5,4){};
-
 \node  [pred] (Ap) at (1,1.6666){};
 \node  [pred] (Bp) at (2,2.3333){};
 \node  [pred] (Cp) at (3,3){};
 \node  [pred] (Dp) at (4,3.6666){};
 \node  [pred] (Ep) at (5,4.3333){};
-
 \draw[magenta] (A) -- (Ap);
 \draw[magenta] (B) -- (Bp);
 \draw[magenta] (C) -- (Cp);
 \draw[magenta] (D) -- (Dp);
 \draw[magenta] (E) -- (Ep);
-
-
 \node  [below] (X) at (7,0){X};
 \node  [left] (Y) at (0,6){Y};
-
 \node  [below] (subb) at (3.5,0){(b)};
-
-%\node[punkt] (A) at (9,1){};
-%\node[draw] (B) at (8,4){B};
-%\draw (A) -- (B);
 \end{tikzpicture}
 \captionof{figure}{Zwei Regressionsgeraden}\label{fig:geraden2}
 
-Wenn wir beide Grafiken betrachten, so ist schnell sichtbar, dass die Regressionsgerade im linken Bild deutlich schlechter ist als die Regressionsgerade im rechten Bild: die Summe der Abstände zwischen den wahren, roten, Punkten und den durch die Gerade geschätzten Punkten ist viel größer.
+Wenn wir die Abweichungen der tatsächlichen \(Y\)-Werte von den geschätzten \(Y\)-Werten als Maß für die Güte der Regression nutzen, dann wird beim Betrachten der beiden Abbildungen schnell klar, dass die Regressionsgerade im linken Bild deutlich schlechter ist als die Regressionsgerade im rechten Bild: die Summe der Abstände zwischen den wahren, roten, Punkten und den durch die Gerade geschätzten Punkten ist deutlich größer.
 
-Aus dieser Tatsache lässt sich ein sehr wichtiger Schluss ziehen: wenn wir diese Summe der Abstände minimieren könnten, würden wir die optimale Gerade erhalten. In Gleichungsform können wir schreiben:
+Aus dieser Tatsache lässt sich ein sehr wichtiger Schluss ziehen: wenn wir diese Summe der Abstände mathematisch \textit{minimieren} könnten, dann würden wir die \textit{optimale}   
+Gerade erhalten. 
+
+In Gleichungsform können wir dies wie folgt aufschreiben:
 
 \begin{equation}
 S = \sm y_i - \hat{y}_i\label{eq:summedifferenzen}
@@ -401,7 +374,9 @@ S = \sm y_i - \hat{y}_i\label{eq:summedifferenzen}
 
 In Worten: S ist die Summe aller Differenzen von wahrem und geschätzten $y$-Wert.
 
-Es hat sich als mathematisch sinnvoll herausgestellt, nicht einfach die Summe der Abstände zu minimieren, sondern die Summe der \textit{quadrierten} Abstände. Es lässt sich nicht nur leicht damit rechnen, der Kleinste-Quadrate-Schätzer ist auch -- sofern die  Annahmen des klassischen linearen Regressionsmodells nicht verletzt sind -- BLUE (\enquote{Best Linear Unbiased Estimator}). Dazu später mehr\ldots
+Es hat sich als mathematisch sinnvoll herausgestellt, nicht einfach die Summe der Abstände zu minimieren, sondern die Summe der \textit{quadrierten} Abstände. 
+Es lässt sich nicht nur leicht damit rechnen, der Kleinste-Quadrate-Schätzer ist auch -- sofern die  Annahmen des klassischen linearen Regressionsmodells nicht verletzt sind -- BLUE (\enquote{Best Linear Unbiased Estimator}). 
+Dazu jedoch später mehr\ldots
 
 Aus Gleichung \ref{eq:summedifferenzen} wird jetzt -- da wir ja die Quadratsumme minimieren wollen -- die folgende Gleichung:
 
@@ -416,13 +391,7 @@ QS(a,b) = \left(\sm y_i - \hat{y}_i\right)^2
 \end{equation}%\label{eq:qabstaendea}
 
 
-%Die Vorgehensweise bei der linearen Regression veranschaulicht folgende Grafik. Gegeben sind Wertepaare $x_i,y_i$, als schwarze Punkte eingezeichnet. Grün sind die Werte $(\hat{x},\hat{y})$ die durch die lineare Regressionsfunktion errechnet werden. Die roten Linien symbolisieren die Abweichungen\footnote{Es ist egal, ob man $y_i-\hat{y}_i$ oder $\hat{y}_i-y_i$ schreibt, durch die Quadrierung heben sich eventuelle negative Vorzeichen auf.}  $e_i=y_i-\hat{y}_i$ dieser durch die Gleichung bestimmten Punkte von den wahren Punkten. Aufgabe bei der Bestimmung der Parameter ist es nun, $a$ und $b$ so zu wählen, dass die Summe QS der quadrierten Abweichungen -- also $\sum_{i=1}^n (y_i-\hat{y}_i)^2$ -- minimal wird. 
-
-%\begin{center}
-%\includegraphics[width=0.75\textwidth]{linreg_metapost.1}
-%\end{center}
-
-Im Folgenden werden wir diese Funktion partiell ableiten, um die Gleichungen für die optimalen \(a\) und \(b\) zu ermitteln. 
+Im Folgenden werden wir diese Funktion \textit{partiell ableiten}, um die Gleichungen für die optimalen \(a\) und \(b\) zu ermitteln. 
 
 \section{Herleitung der Parameter-Gleichungen}
 
@@ -430,31 +399,41 @@ Wir schreiben Gleichung \ref{eq:qabstaende} nochmals auf und ersetzen \(\hat y\)
 
 \begin{align}\label{eq:1}
 \qs	&  = \sm \left(y_i - \hat{y}_i\right)^2\\
-								&= \sm \Big(y_i - [ax_i+b]\Big)^2 \label{eq:2}
+								&= \sm \Big(y_i - \overbrace{\big[ax_i+b\big]}^{\hat{y_i}}\Big)^2 \label{eq:2}
 \end{align}
 
-Da wir die optimalen Werte für die Minimierung dieser Quadratsumme erhalten wollen, bilden wir die partiellen Ableitungen nach $a$ und $b$. Vorher können wir jedoch Gleichung \ref{eq:1} vereinfachen. Mit Hilfe der 2. Binomischen Formel\footnote{\quad 2. Binomische Formel: \((s-t)^2 = s^2 -2st + t^2\)} lösen wir Gleichung \ref{eq:2} auf:
+Da wir die \textit{optimalen} Werte für die Minimierung dieser Quadratsumme erhalten wollen, bilden wir die partiellen Ableitungen nach \(a\) und \(b\). 
+
+Vorher können wir jedoch Gleichung \ref{eq:2} vereinfachen, denn hier lässt sich zweimal eine Binomische Formel anwenden, was in Gleichung \ref{eq:binform} deutlich wird. Wenn wir den linken Teil des Binoms als \(s\) bezeichnen und den rechten Teil des Binoms als \(t\), dann können wird die zweite Binomische Formel anwenden.
 
 \begin{equation}
-	\qs = \sm \Big( \overbrace{y_i^2}^{s^2} - \overbrace{2y_i (ax_i+b)}^{-2st} + \overbrace{(ax_i +b)^2}^{t^2}\Big)
+\sm \Big( \overbrace{y_i}^{s} - \overbrace{\big[ax_i+b\big]}^{t}  \Big)^2 \label{eq:binform}
 \end{equation}
 
-Da der Term \((ax_i +b)^2\) der 1. Binomischen Formel\footnote{\quad 1. Binomische Formel: \((s+t)^2 = s^2 +2st + t^2\)} entspricht, lösen wir auch diesen auf und vereinfachen:
+Mit Hilfe der 2. Binomischen Formel\footnote{\quad 2. Binomische Formel: \((s-t)^2 = s^2 -2st + t^2\)} kommen wir von Gleichung \ref{eq:binform} zu Gleichung~\ref{eq:postbinform}:
+
+
+\begin{equation}
+	\qs = \sm \Big( \overbrace{y_i^2}^{s^2} - \overbrace{2y_i (ax_i+b)}^{-2st} + \overbrace{(ax_i +b)^2}^{+t^2}\Big) \label{eq:postbinform}
+\end{equation}
+
+Als nächstes können wir noch auf den Ausdruck \(\big(ax_i + b\big)^2 \) die 1. Binomische Formel\footnote{\quad 1. Binomische Formel: \((s+t)^2 = s^2 +2st + t^2\)} anwenden:
+
 
 \begin{equation}
 	\qs = \sm \Big(y_i^2 - 2ax_iy_i - 2by_i + \overbrace{a^2x_i^2}^{s^2} + \overbrace{2abx_i}^{2st} + \overbrace{b^2}^{t^2}\Big)\label{eq:simp}
 \end{equation}
 
-Ausgehend von Gleichung \ref{eq:simp} bilden wir jetzt die partiellen Ableitungen nach \(a\) und \(b\). 
+Ausgehend von Gleichung \ref{eq:simp} bilden wir jetzt die partiellen Ableitungen nach \(a\) und~\(b\). 
 
 \begin{align}
-\frac{\partial \qs}{\partial a}	&= \sm (-2x_iy_i + 2ax_i^2 + 2bx_i) \label{eq:parta1}\\
+\frac{\partial\, \qs}{\partial a}	&= \sm \big(-2x_iy_i + 2ax_i^2 + 2bx_i\big) \label{eq:parta1}\\
 								&= 2 \sm x_i(-y_i + ax_i + b) \label{eq:parta2a} \\
 								&= 2 \sm x_i(ax_i + b -y_i ) \label{eq:parta2} 
 \end{align}
 
 \begin{align}
-\frac{\partial \qs}{\partial b}	&= \sm (-2y_i+2ax_i +2b) \label{eq:partb1}\\
+\frac{\partial\, \qs}{\partial b}	&= \sm (-2y_i+2ax_i +2b) \label{eq:partb1}\\
 								&= 2 \sm (ax_i + b -y_i) \label{eq:partb2}
 \end{align}
 
@@ -467,7 +446,7 @@ Wenn wir Gleichung \ref{eq:partb2} nullsetzen und auflösen, erhalten wir
 \end{alignat}
 %& 2 \sm y_i &&- 2\sm ax_i &&= 2nb
 
-Auflösen nach \(b\) (durch \(2n\) teilen) gibt (zusammen mit der Tatsache, dass das arithmetische Mittel allgemein als \(\bar{x}= \frac{1}{n} \sm x_i \) definiert ist):
+Auflösen nach \(b\) (durch \(2n\) teilen) ergibt zusammen mit der Tatsache, dass das arithmetische Mittel allgemein als \(\bar{x}= \frac{1}{n} \sm x_i \) definiert ist:
 
 \begin{align}
 b &= \frac{\sm y_i}{n} - \frac{\sm ax_i}{n} \\
@@ -565,9 +544,9 @@ a =  \dfrac{\cov(x,y)}{\var(x)}
 
 Wie lassen sich die beiden Parameter interpretieren? 
 
-\(b\), die Steigung, gibt den durchschnittlichen Betrag wieder, um den sich \(y\) ändert, wenn \(x\) um eine Einheit verändert wird. 
+\(a\), die Steigung, gibt den durchschnittlichen Betrag wieder, um den sich \(y\) ändert, wenn \(x\) um eine Einheit verändert wird. 
 
-\(a\) gibt den Betrag von \(y\) an, wenn \(x\) den Wert 0 hat. 
+\(b\) gibt den Betrag von \(y\) an, wenn \(x\) den Wert 0 hat. 
 
 Je nachdem, welche Größen untersucht werden, kann ein \(x\) von 0 sinnvoll interpretiert werden oder nicht. Für eine Untersuchung des  Körpergewichts in Abhängigkeit von der Körpergröße spielt die Körpergröße \(x=0\) sicherlich keine Rolle\ldots    
 
@@ -600,15 +579,13 @@ Hinweis zu dieser Rechnung: Brüche werden dividiert, indem man mit dem Kehrwert
  - (-7) \cdot 3.5 = 57.0
  \]
 
-Unsere Regressionsgleichung lautet also:
-
+Unsere Regressionsgleichung lautet also
 \[
 y = -7 \cdot x + 57
 \]
 
 
-Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Regressionsgerade zeichnen:\vspace*{-11mm}
-
+Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Regressionsgerade zeichnen, siehe dazu Abbildung \ref{fig:final} auf Seite \pageref{fig:final}.
 
 \begin{center}
 \vspace*{1em}\begin{tikzpicture}[xscale=1,yscale=0.1,punkt/.style={circle, minimum size = 0.05cm,blue,fill=red},
@@ -651,7 +628,7 @@ Mit den gefundenen Werten für unsere beiden Parameter können wir jetzt die Reg
 
 \section{Maße für die Güte der Linearen Regression}
 
-In diesem Abschnitt möchte ich erläutern, wie man die Stärke des linearen Zusammenhangs und die Güte des linearen Modells bestimmt. Unsere Regressionsparameter \(a\) und \(b\) sind die optimalen Modellparameter für die von uns genutzten Daten, aber sie erklären nicht, wie gut die Werte der unabhängigen Variablen die Werte unserer abhängigen Variablen erklären.
+In diesem Abschnitt möchte ich erläutern, wie man die Stärke des linearen Zusammenhangs und die Güte des linearen Modells bestimmt. Unsere Regressionsparameter \(a\) und \(b\) sind die \textit{optimalen} Modellparameter für die von uns genutzten Daten, aber sie erklären nicht, wie \textit{gut} die Werte der unabhängigen Variablen die Werte unserer abhängigen Variablen erklären.
 
 \subsection{Standardfehler der Schätzung}
 
@@ -660,10 +637,10 @@ Der Standardfehler der Schätzung (auf englisch: standard error of estimate\enqu
 Berechnet wird der Standardfehler wie folgt:
 
 \begin{equation}
-\text{SEE} = \sqrt{\frac{\sum (y-\hat{y})^2}{N-2}}
+\text{SEE} = \sqrt{\frac{\sum \left(y-\hat{y}\right)^2}{N-2}}
 \end{equation}
 
-\(N-2\) steht für die Anzahl der Freiheitsgrade, der Zahl der Observationen minus der Zahl der geschätzten Parameter (in unserem Beispiel Anstieg und Achsenabschnitt).
+\(N-2\) steht für die Anzahl der Freiheitsgrade, der Zahl der Beobachtungen minus der Zahl der geschätzten Parameter. In unserem Beispiel haben wir Anstieg und Achsenabschnitt geschätzt, daher beträgt die Zahl der Parameter 2. \clearpage
 
 Für unser Beispiel ergibt sich SEE daher als:
 
@@ -684,7 +661,7 @@ Für unser Beispiel ergibt sich SEE daher als:
 \text{SEE} = \sqrt{\frac{3.6}{3}} = 1.0954451150103321
 \end{equation}
 
-
+Wie lässt sich dieser Wert interpretieren? TBD
 
 \subsection{Korrelationskoeffizient}
 
