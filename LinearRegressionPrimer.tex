@@ -113,15 +113,13 @@
 
 \maketitle
 
-\subsubsection*{Historie}
 
-\begin{description}
-\item[v1.0] 16.03.2009, erste Version hochgeladen
-\item[v2.0] 02.03.2013, einen Vorzeichenfehler beseitigt, diverse Gleichungen und Erläuterungen zum besseren Verständnis hinzugefügt.
-\item [v3.0] auf Github gewechselt, Metapost gegen TikZ getauscht, einige Erläuterungen verbessert, \LaTeX\ Code aufgeräumt
-\item [v3.1] Neues Zahlenbeispiel (noch nicht überall ausgetauscht), Erweiterung um multiple Regression, Quellcodes, Tests, etc. (DRAFT) 
-\item [v3.2] Zwei Fehler gefixt, danke an A.~Weber (DRAFT) 
-\end{description}
+Im Rahmen meiner Lehrtätigkeit an Humboldt-Universität zu Berlin und FOM~(Fachhochschule für Oekonomie und Management) durfte ich auch einige Male erklären, wie man die Formeln zur Linearen Regression herleitet. Daraus entstand dann dieses Dokument, das ich hier mit \LaTeX-Quellen zum Download anbiete.
+
+Vielen Dank an diejenigen, die mir Fehler und Ungenauigkeiten im Dokument melden. Am besten dazu ein Issue im github einstellen, ich versuche dann, zeitnah eine neue Version bereitzustellen.
+
+\tableofcontents
+
 
 \section{Einführung}
 
@@ -133,9 +131,9 @@ Das Beiwort \enquote{linear} ergibt sich dadurch, dass die abhängige Variable e
 Der Begriff Regression bzw. Regression zur Mitte wurde vor allem durch den Statistiker Francis Galton geprägt. 
 }\end{quote}
 
-Allgemein wird eine metrische Variable $Y$ betrachtet, die \textit{linear} von ein oder mehreren Variablen $X_i$ abhängt.
-$Y$ nennt man daher auch die \enquote{abhängige Variable} und die $X_i$ die \enquote{unabhängigen Variablen}.
-Im eindimensionalen Fall -- wenn es nur eine $X$-Variable gibt -- spricht man von einer einfachen linearen Regression, in höheren Dimensionen -- wenn es mehrere \(X_i\)-Variablen gibt --  von der multiplen linearen Regression.
+Allgemein wird eine metrische Variable \(Y\) betrachtet, die \textit{linear} von ein oder mehreren Variablen \(X_i\) abhängt.
+\(Y\) nennt man daher auch die \enquote{abhängige Variable} und die \(X_i\) die \enquote{unabhängigen Variablen}.
+Im eindimensionalen Fall -- wenn es nur eine \(X\)-Variable gibt -- spricht man von einer einfachen linearen Regression, in höheren Dimensionen -- wenn es mehrere \(X_i\)-Variablen gibt --  von der multiplen linearen Regression.
 
 \section{Einfache lineare Regression}
 
@@ -375,8 +373,7 @@ S = \sm y_i - \hat{y}_i\label{eq:summedifferenzen}
 In Worten: S ist die Summe aller Differenzen von wahrem und geschätzten $y$-Wert.
 
 Es hat sich als mathematisch sinnvoll herausgestellt, nicht einfach die Summe der Abstände zu minimieren, sondern die Summe der \textit{quadrierten} Abstände. 
-Es lässt sich nicht nur leicht damit rechnen, der Kleinste-Quadrate-Schätzer ist auch -- sofern die  Annahmen des klassischen linearen Regressionsmodells nicht verletzt sind -- BLUE (\enquote{Best Linear Unbiased Estimator}). 
-Dazu jedoch später mehr\ldots
+Es lässt sich nicht nur leicht damit rechnen, der Kleinste-Quadrate-Schätzer ist auch -- sofern die  Annahmen des klassischen linearen Regressionsmodells nicht verletzt sind -- BLUE (\enquote{Best Linear Unbiased Estimator}). Dazu ein wenig mehr im Anhang unter Abschnitt \ref{sec:blue}. 
 
 Aus Gleichung \ref{eq:summedifferenzen} wird jetzt -- da wir ja die Quadratsumme minimieren wollen -- die folgende Gleichung:
 
@@ -527,7 +524,9 @@ a =  \dfrac{\sm x_iy_i - n\bar{x}\bar{y}}{\sm x_i^2 -n\bar{x}^2} = \dfrac{n \lef
 
  
 \begin{infobox}
-Die Kovarianz ist definiert als der Erwartungswert der Produkte der Abweichungen zweier Zufallsvariablen von ihren jeweiligen Populations-Mittelwerten und ist ein Maß für den linearen Zusammenhang. Eine positive Kovarianz bedeutet, dass sich beide Zufallsvariablen in eine Richtung gemeinsam bewegen (positiv-positiv), eine negative Kovarianz bedeutet, dass sich beide Variablen entgegengesetzt bewegen (positiv-negativ).
+Die Kovarianz ist definiert als der Erwartungswert der Produkte der Abweichungen zweier Zufallsvariablen von ihren jeweiligen Populations-Mittelwerten. 
+Sie ist ein Maß für den \textit{linearen} Zusammenhang, diese Einschränkung ist wichtig.
+Eine positive Kovarianz bedeutet, dass sich beide Zufallsvariablen in eine Richtung gemeinsam bewegen (positiv-positiv), eine negative Kovarianz bedeutet, dass sich beide Variablen entgegengesetzt bewegen (positiv-negativ).
 \end{infobox}
 
 
@@ -550,7 +549,7 @@ Wie lassen sich die beiden Parameter interpretieren?
 
 Je nachdem, welche Größen untersucht werden, kann ein \(x\) von 0 sinnvoll interpretiert werden oder nicht. Für eine Untersuchung des  Körpergewichts in Abhängigkeit von der Körpergröße spielt die Körpergröße \(x=0\) sicherlich keine Rolle\ldots    
 
-\clearpage\section{Beispiel}
+\section{Beispiel}
 
 \begin{center}
 \captionof{table}{Hilfstabelle}
@@ -568,7 +567,7 @@ $\sum$ & 21 & 195 & & & -122.5 & 17.5 \\ \bottomrule
 \end{tabular}
 \end{center}
 
-Mit Hilfe der Werte aus der Tabelle lassen sich \(a\) und \(b\) einfach bestimmen. Hinweis: \(\bar x = 21/6 = 3.5\), \(\bar y = 195/6 = 32.5 \)
+Mit Hilfe der Werte aus der Tabelle lassen sich \(a\) und \(b\) jetzt einfach bestimmen. Hinweis: \(\bar x = 21/6 = 3.5\), \(\bar y = 195/6 = 32.5 \)
 
 \[ a = \frac{\frac{\sum_{i=1}^n \left(x_i-\bar x \right)\left(y_i-\bar y \right)}{6}}{ 
 \frac{\sum_{i=1}^6 \left( x_i - \bar x \right)^2}{6}} = \frac{\sum_{i=1}^n\left(x_i-\bar x \right)\left(y_i-\bar y \right)}{\sum_{i=1}^n \left(x_i-\bar x \right)^2}  = \frac{-122.5}{17.5} = -7 \]
@@ -632,15 +631,19 @@ In diesem Abschnitt möchte ich erläutern, wie man die Stärke des linearen Zus
 
 \subsection{Standardfehler der Schätzung}
 
-Der Standardfehler der Schätzung (auf englisch: standard error of estimate\enquote{SSE}) ist ein Maß dafür, wie stark die tatsächlichen \(Y\)-Werte von den geschätzten Werten (\(\hat{Y}\)) abweichen. Je kleiner der Standardfehler, desto besser ist die Erklärung durch unser Modell. 
+Der Standardfehler der Schätzung (auf englisch: standard error of estimate\enquote{SEE}) ist ein Maß dafür, wie stark die tatsächlichen \(Y\)-Werte von den geschätzten Werten (\(\hat{Y}\)) abweichen, er repräsentiert die durchschnittliche Abweichung der beobachteten Werte von der Regressionsgeraden. 
 
-Berechnet wird der Standardfehler wie folgt:
+Je kleiner der Standardfehler, desto besser ist die Erklärung durch unser Modell. 
+
+Berechnet wird der Standardfehler für eine Stichprobe wie folgt:
 
 \begin{equation}
-\text{SEE} = \sqrt{\frac{\sum \left(y-\hat{y}\right)^2}{N-2}}
+\text{SEE} = \sqrt{\frac{1}{N-2} \sum \left(y-\hat{y}\right)^2}
 \end{equation}
 
 \(N-2\) steht für die Anzahl der Freiheitsgrade, der Zahl der Beobachtungen minus der Zahl der geschätzten Parameter. In unserem Beispiel haben wir Anstieg und Achsenabschnitt geschätzt, daher beträgt die Zahl der Parameter 2. \clearpage
+
+Hinweis: Berechnet man SEE für eine Grundgesamtheit, dann wird aus \(N-2\) ein \(N\), da keine Parameter mehr geschätzt werden, sondern aus der Population errechnet werden konnten.
 
 Für unser Beispiel ergibt sich SEE daher als:
 
@@ -648,24 +651,27 @@ Für unser Beispiel ergibt sich SEE daher als:
 \captionof{table}{Berechnung des Standardfehlers}
 \begin{tabular}{r|rrrr} \toprule
 \(x_i\) & \(y_i\)  & \(\hat{y_i}\) & \(y_i-\hat{y_i}\) & \((y_i-\hat{y_i})^2\) \\ \midrule
-1 & 1 & 1.4 & -0.4 & 0.16 \\
-2 & 3 & 2.2 & 0.8 & 0.64 \\
-3 & 2 & 3.0 & -1.0  & 1.0	\\
-4 & 5 & 3.8 & 1.2 & 1.44\\
-5 & 4 & 4.6 &  -0.6 & 0.36\\ \midrule
-\(\sum\) & & & & 3.6 \\ \bottomrule
+1 & 50 & 50 & 0 & 0 \\
+2 & 40 & 43 & -3 & 9 \\
+3 & 45 & 36 & 9   & 81	\\
+4 & 20 & 29 & -9 &  81 \\
+5 & 25 & 22 & 3 & 9 \\
+6 & 15 & 15 &  0 & 0\\ \midrule
+\(\sum\) & & & & 180 \\ \bottomrule
 \end{tabular}
 \end{center}
 
 \begin{equation}
-\text{SEE} = \sqrt{\frac{3.6}{3}} = 1.0954451150103321
+\text{SEE} = \sqrt{ \frac{1}{4} \cdot 180} = \sqrt{45} = 6.7082
 \end{equation}
 
-Wie lässt sich dieser Wert interpretieren? TBD
+Wie lässt sich dieser Wert interpretieren? Ich würde es wie folgt beschreiben: \enquote{Im Mittel weicht die prognostizierte Zahl der verkauften Cocktails von der gemessenen Anzahl um ungefähr sieben Stück ab.}
 
 \subsection{Korrelationskoeffizient}
 
-Schauen wir uns zuerst den Korrelationskoeffizienten \(r\) an, auch Bravais-Pearson-Koeffizient  genannt. \(r\) misst die Stärke und Richtung des linearen Zusammenhangs zwischen zwei metrischen Variablen. Wichtig ist hier das Wort \enquote{linearen}: \(r\) kann nicht sinnvoll bei nicht-linearen (wie z.\,B. quadratischen) Zusammenhängen genutzt werden.
+Schauen wir uns zuerst den Korrelationskoeffizienten \(r\) an, auch Bravais-Pearson-Koeffizient  genannt. 
+
+\(r\) misst die Stärke und Richtung des linearen Zusammenhangs zwischen zwei metrischen Variablen. Wichtig ist hier das Wort \enquote{linearen}: \(r\) kann nicht sinnvoll bei nicht-linearen (wie z.\,B. quadratischen) Zusammenhängen genutzt werden.
 
 Für \(r\) gibt es zwei Formeln:
 
@@ -679,7 +685,7 @@ r = \frac{\sum_{i=1}^n x_iy_i - n\bar{x}\bar{y}}%
 {\sqrt{\sum_{i=1}^n x_i^2 - n\bar{x}^2}\cdot \sqrt{\sum_{i=1}^n y_i^2 - n\bar{y}^2}}
 \end{equation}
 
-Je nach den gegegeben Zahlen lässt sich besser mal die eine, mal die andere Gleichung nutzen, vom Ergebnis her ergeben beide das gleiche.
+Je nachdem, welche Werte man gegeben hat oder bereits berechnet hat, lässt sich besser mal der einen, mal mit der anderen Gleichung rechnen. Vom Ergebnis her ergeben beide Gleichungen das gleiche Ergebnis.
 
 \(r\) nimmt Werte zwischen -1 und 1 an, der Wert wird wie folgt interpretiert:
 
@@ -764,10 +770,27 @@ Moderne (Schul-)Taschenrechner haben alle entsprechende Funktionen eingebaut, um
 	\item Drückt man wiederholt \texttt{OPTN} und dann die \enquote{3}, so gelangt man in das Menü für die Berechnung der Variablen. Hier zeigt der Rechner die verschiedenen Teilergebnisse wie \(\bar{x}\), \(\sum{x}\), \(\sum{x^2}\), etc.
 	\end{enumerate}
 
-\section{Code-Beispiele}
+
+\section{Anhang}
+
+\section{\enquote{BLUE} oder der Satz von Gauß-Markov}\label{sec:blue}
+
+Aus der Wikipedia:  Der Satz von Gauß-Markov besagt, dass in einem linearen Regressionsmodell, in dem 
+
+\begin{enumerate}
+\item die Störgrößen einen Erwartungswert von null 
+\item und eine konstante Varianz haben
+\item sowie unkorreliert sind
+\end{enumerate}
+
+der Kleinste-Quadrate-Schätzer ein bester linearer erwartungstreuer Schätzer, kurz \enquote{Best Linear Unbiased Estimator} (BLUE) ist. Die drei genannten Punkte sind die Annahmen des klassischen Linearen Regressionsmodells, 
 
 
-\subsection{Python}
+\subsection{Code-Beispiele}
+
+
+
+\subsubsection{Python}
 
 \lstinputlisting[language=Python,morekeywords={linregress}]{linreg-01.py}
 
@@ -791,7 +814,7 @@ Slope:  -7.0
 Intersect:  57.0
 \end{ausgabe}
 
-\subsection{R}
+\subsubsection{R}
 
 \lstinputlisting[language=R,morekeywords={lm}]{linreg-01.R}
 
@@ -816,14 +839,23 @@ Multiple R-squared:  0.8265,	Adjusted R-squared:  0.7831
 F-statistic: 19.06 on 1 and 4 DF,  p-value: 0.01201
 \end{ausgabe}
 
-\subsection{Microsoft Excel}
+\subsubsection{Microsoft Excel}
+
+Die Excel-Datei in diesem Github-Repo enthält zwei Arbeitsblätter, einmal mit der Berechnung auf traditionelle Weise, einmal mit der Berechnung über die entsprechenden Excel-Formeln \texttt{STEIGUNG} und \texttt{ACHSENABSCHNITT}.
 
 
 
+\begin{center}
+\includegraphics[width=\textwidth]{Excel_manuell}
+\captionof{figure}{Manuelle Berechnung in Excel}\label{fig:excelm}
+\end{center}
 
 
 
-
+\begin{center}
+\includegraphics[width=\textwidth]{Excel_Formeln}
+\captionof{figure}{Berechnung über Excel-Formeln}\label{fig:excelf}
+\end{center}
 
 
 
